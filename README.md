@@ -1,1 +1,1 @@
-# terraform-module-template
+# terraform-aws-lambda
