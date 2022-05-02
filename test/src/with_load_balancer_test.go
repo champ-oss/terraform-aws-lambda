@@ -14,7 +14,7 @@ func TestWithLoadBalancer(t *testing.T) {
 		BackendConfig: map[string]interface{}{},
 		EnvVars:       map[string]string{},
 		Vars: map[string]interface{}{
-			"ecr_tag": os.Getenv("PULL_REQUEST_HEAD_SHA"),
+			"ecr_tag": os.Getenv("GITHUB_SHA"),
 		},
 	}
 	defer terraform.Destroy(t, terraformOptions)
