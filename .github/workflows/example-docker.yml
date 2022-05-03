@@ -1,0 +1,33 @@
+on:
+  workflow_dispatch:
+  push:
+
+env:
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  REPO: 912455136424.dkr.ecr.us-east-1.amazonaws.com/terraform-aws-lambda
+
+defaults:
+  run:
+    shell: bash
+    working-directory: examples/python
+
+jobs:
+  example-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: docker build
+        run: docker build -t ${REPO}:${GITHUB_SHA} .
+
+      - name: ecr login
+        run: aws ecr --region us-east-1 get-login-password | docker login --username AWS --password-stdin 912455136424.dkr.ecr.us-east-1.amazonaws.com
+
+      - name: create ecr repo
+        run: aws ecr create-repository --region us-east-1 --repository-name terraform-aws-lambda || echo "repo already exists"
+
+      - name: docker push
+        run: |
+          docker push ${REPO}:${GITHUB_SHA}

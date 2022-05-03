@@ -5,16 +5,19 @@ import (
 	"testing"
 )
 
-// TestExamplesComplete tests a typical deployment of this module
-func TestExamplesComplete(t *testing.T) {
+func TestZip(t *testing.T) {
 	t.Parallel()
 
 	terraformOptions := &terraform.Options{
-		TerraformDir:  "../../examples/complete",
+		TerraformDir:  "../../examples/zip_file_package",
 		BackendConfig: map[string]interface{}{},
 		EnvVars:       map[string]string{},
 		Vars:          map[string]interface{}{},
 	}
 	defer terraform.Destroy(t, terraformOptions)
+
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
+
+	arn := terraform.Output(t, terraformOptions, "arn")
+	invokeTest(t, arn)
 }
