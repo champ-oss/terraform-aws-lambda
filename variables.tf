@@ -80,6 +80,12 @@ variable "filename" {
   default     = ""
 }
 
+variable "source_code_hash" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#source_code_hash"
+  type        = string
+  default     = ""
+}
+
 variable "handler" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#handler"
   type        = string
