@@ -12,7 +12,7 @@ resource "aws_lambda_function" "this" {
   image_uri        = var.ecr_name != "" ? local.image_uri : null
   filename         = var.filename != "" ? var.filename : null
   handler          = var.handler != "" ? var.handler : null
-  source_code_hash = var.filename != "" ? filebase64sha256(var.filename) : null
+  source_code_hash = var.source_code_hash != "" ? var.source_code_hash : null
   runtime          = var.runtime != "" ? var.runtime : null
   memory_size      = var.memory_size
   timeout          = var.timeout
