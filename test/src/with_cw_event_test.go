@@ -19,5 +19,12 @@ func TestWithCloudwatchEvent(t *testing.T) {
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
 	arn := terraform.Output(t, terraformOptions, "arn")
+
+    // Calling Sleep method
+    time.Sleep(300 * time.Second)
+
+    // Printed after sleep is over
+    fmt.Println("Sleep Over.....")
+
 	invokeTest(t, arn)
 }
