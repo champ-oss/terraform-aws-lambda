@@ -3,6 +3,8 @@ package test
 import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"testing"
+	"fmt"
+	"time"
 )
 
 func TestWithCloudwatchEvent(t *testing.T) {
