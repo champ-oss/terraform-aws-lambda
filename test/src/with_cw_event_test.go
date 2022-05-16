@@ -1,14 +1,18 @@
 package test
 
 import (
-	"github.com/gruntwork-io/terratest/modules/terraform"
-	"testing"
 	"fmt"
+	"github.com/gruntwork-io/terratest/modules/logger"
+	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/stretchr/testify/assert"
+	"testing"
 	"time"
 )
 
 func TestWithCloudwatchEvent(t *testing.T) {
 	t.Parallel()
+
+	region := "us-east-1"
 
 	terraformOptions := &terraform.Options{
 		TerraformDir:  "../../examples/with_cw_event",
@@ -20,13 +24,22 @@ func TestWithCloudwatchEvent(t *testing.T) {
 
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
-	arn := terraform.Output(t, terraformOptions, "arn")
+	// Calling Sleep method
+	time.Sleep(60 * time.Second)
 
-    // Calling Sleep method
-    time.Sleep(300 * time.Second)
+	logger.Log(t, "Creating AWS Session")
+	awsSess := GetAWSSession()
 
-    // Printed after sleep is over
-    fmt.Println("Sleep Over.....")
+	// get lambda tf output logGroupName
+	cloudwatchLogGroup := terraform.Output(t, terraformOptions, "cloudwatch_log_group")
 
-	invokeTest(t, arn)
+	actualLogStreamName := GetLogStream(awsSess, region, cloudwatchLogGroup)
+	fmt.Print(actualLogStreamName)
+
+	logger.Log(t, "getting logs")
+	outputLogs := GetLogs(awsSess, region, cloudwatchLogGroup, actualLogStreamName)
+
+	logger.Log(t, "checking message in log stream for expected value")
+	expectedResponse := "successful"
+	assert.Contains(t, expectedResponse, *outputLogs[1].Message)
 }

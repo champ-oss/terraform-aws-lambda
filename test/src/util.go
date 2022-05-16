@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/cloudwatchlogs"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
@@ -61,4 +62,36 @@ func httpTest(t *testing.T, url string) {
 	assert.NoError(t, err)
 	t.Log("http response body:", string(body))
 	assert.True(t, strings.Contains(string(body), "successful"))
+}
+
+func GetLogs(session *session.Session, region string, logGroup string, logStream *string) []*cloudwatchlogs.OutputLogEvent {
+	svc := cloudwatchlogs.New(session, aws.NewConfig().WithRegion(region))
+
+	params := &cloudwatchlogs.GetLogEventsInput{
+		LogGroupName:  aws.String(logGroup),
+		LogStreamName: aws.String(*logStream),
+	}
+	resp, _ := svc.GetLogEvents(params)
+
+	// Pretty-print the response data.
+	fmt.Println(resp)
+	return resp.Events
+}
+
+func GetLogStream(session *session.Session, region string, logGroup string) *string {
+	svc := cloudwatchlogs.New(session, aws.NewConfig().WithRegion(region))
+
+	params := &cloudwatchlogs.DescribeLogStreamsInput{
+		LogGroupName: aws.String(logGroup),
+		Descending:   aws.Bool(true),
+		OrderBy:      aws.String("LastEventTime"),
+	}
+
+	resp, _ := svc.DescribeLogStreams(params)
+
+	stream := resp.LogStreams[0].LogStreamName
+
+	// Pretty-print the response data.
+	fmt.Println(resp)
+	return stream
 }

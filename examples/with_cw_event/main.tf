@@ -11,7 +11,7 @@ data "archive_file" "this" {
 module "this" {
   source              = "../../"
   git                 = "terraform-aws-lambda"
-  name                = "zip"
+  name                = "cloudwatch"
   filename            = data.archive_file.this.output_path
   source_code_hash    = data.archive_file.this.output_base64sha256
   handler             = "app.handler"
