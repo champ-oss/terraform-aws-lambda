@@ -28,16 +28,16 @@ func TestWithCloudwatchEvent(t *testing.T) {
 	time.Sleep(60 * time.Second)
 
 	logger.Log(t, "Creating AWS Session")
-	awsSess := GetAWSSession()
+	sess := getAWSSession()
 
 	// get lambda tf output logGroupName
 	cloudwatchLogGroup := terraform.Output(t, terraformOptions, "cloudwatch_log_group")
 
-	actualLogStreamName := GetLogStream(awsSess, region, cloudwatchLogGroup)
+	actualLogStreamName := GetLogStream(sess, region, cloudwatchLogGroup)
 	fmt.Print(actualLogStreamName)
 
 	logger.Log(t, "getting logs")
-	outputLogs := GetLogs(awsSess, region, cloudwatchLogGroup, actualLogStreamName)
+	outputLogs := GetLogs(sess, region, cloudwatchLogGroup, actualLogStreamName)
 
 	logger.Log(t, "checking message in log stream for expected value")
 	expectedResponse := "successful"
