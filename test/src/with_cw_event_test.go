@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestZip(t *testing.T) {
+func TestWithCloudwatchEvent(t *testing.T) {
 	t.Parallel()
 
 	terraformOptions := &terraform.Options{
