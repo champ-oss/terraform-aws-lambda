@@ -165,7 +165,7 @@ variable "enable_cw_event" {
 }
 
 variable "schedule_expression" {
-  description = "list to allow security group"
+  description = "schedule expression using cron"
   type        = string
-  default     = null
+  default     = "cron(15 10 * * ? *)"
 }
