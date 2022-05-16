@@ -157,3 +157,15 @@ variable "cloudwatch_destroy_wait" {
   type        = string
   default     = "60s"
 }
+
+variable "enable_cw_event" {
+  description = "enable cw event"
+  type        = bool
+  default     = false
+}
+
+variable "schedule_expression" {
+  description = "schedule expression using cron"
+  type        = string
+  default     = "cron(15 10 * * ? *)"
+}
