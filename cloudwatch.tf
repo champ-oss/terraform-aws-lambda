@@ -18,7 +18,7 @@ resource "aws_cloudwatch_event_rule" "this" {
 
 resource "aws_cloudwatch_event_target" "this" {
   count     = var.enable_cw_event ? 1 : 0
-  rule      = aws_cloudwatch_event_rule.this.name
+  rule      = aws_cloudwatch_event_rule.this[count.index].name
   target_id = "lambda"
   arn       = aws_lambda_function.this.arn
 }
@@ -29,5 +29,5 @@ resource "aws_lambda_permission" "this" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.this.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.this.arn
+  source_arn    = aws_cloudwatch_event_rule.this[count.index].arn
 }
