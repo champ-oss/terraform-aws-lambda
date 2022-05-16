@@ -40,6 +40,6 @@ func TestWithCloudwatchEvent(t *testing.T) {
 	outputLogs := GetLogs(sess, region, cloudwatchLogGroup, actualLogStreamName)
 
 	logger.Log(t, "checking message in log stream for expected value")
-	expectedResponse := "successful"
+	expectedResponse := "successful\n"
 	assert.Contains(t, expectedResponse, *outputLogs[3].Message)
 }
