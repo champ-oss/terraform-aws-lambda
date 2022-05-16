@@ -16,6 +16,7 @@ resource "aws_lambda_function" "this" {
   runtime          = var.runtime != "" ? var.runtime : null
   memory_size      = var.memory_size
   timeout          = var.timeout
+  description      = var.description
   tags             = merge(local.tags, var.tags)
 
   dynamic "environment" {

@@ -157,3 +157,9 @@ variable "cloudwatch_destroy_wait" {
   type        = string
   default     = "60s"
 }
+
+variable "description" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#description"
+  type        = string
+  default     = ""
+}
