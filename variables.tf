@@ -157,3 +157,9 @@ variable "cloudwatch_destroy_wait" {
   type        = string
   default     = "60s"
 }
+
+variable "cw_schedule_expression" {
+  description = "list to allow security group"
+  type        = string
+  default     = null
+}
