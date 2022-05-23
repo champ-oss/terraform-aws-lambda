@@ -16,7 +16,6 @@ data "aws_iam_policy_document" "this" {
       type        = "Service"
     }
   }
-
 }
 
 resource "aws_iam_role_policy_attachment" "lambda" {
