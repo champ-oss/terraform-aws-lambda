@@ -10,12 +10,3 @@ resource "aws_route53_record" "this" {
     evaluate_target_health = false
   }
 }
-
-resource "aws_route53_record" "function_url" {
-  count   = var.enable_route53 && var.enable_function_url ? 1 : 0
-  name    = var.dns_name
-  type    = "CNAME"
-  zone_id = var.zone_id
-  ttl     = "300"
-  records = [aws_lambda_function_url.this[0].function_url]
-}

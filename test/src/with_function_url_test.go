@@ -3,7 +3,6 @@ package test
 import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"testing"
-	"time"
 )
 
 func TestWithFunctionUrl(t *testing.T) {
@@ -20,10 +19,9 @@ func TestWithFunctionUrl(t *testing.T) {
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
 	arn := terraform.Output(t, terraformOptions, "arn")
-
-	time.Sleep(15 * time.Minute)
+	functionUrl := terraform.Output(t, terraformOptions, "function_url")
 
 	invokeTest(t, arn)
 
-	httpTest(t, "terraform-aws-lambda-function-url.oss.champtest.net")
+	httpTest(t, functionUrl)
 }
