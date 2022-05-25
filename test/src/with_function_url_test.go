@@ -20,9 +20,10 @@ func TestWithFunctionUrl(t *testing.T) {
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
 	arn := terraform.Output(t, terraformOptions, "arn")
+
+	time.Sleep(15 * time.Minute)
+
 	invokeTest(t, arn)
 
 	httpTest(t, "terraform-aws-lambda-function-url.oss.champtest.net")
-
-	time.Sleep(10 * time.Minute)
 }
