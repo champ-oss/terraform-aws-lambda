@@ -5,19 +5,20 @@ locals {
 # tflint-ignore: terraform_comment_syntax
 //noinspection ConflictingProperties
 resource "aws_lambda_function" "this" {
-  depends_on       = [null_resource.wait_for_ecr, time_sleep.wait_cloudwatch_logs]
-  function_name    = "${var.git}-${var.name}"
-  role             = aws_iam_role.this.arn
-  package_type     = var.ecr_name != "" ? "Image" : "Zip"
-  image_uri        = var.ecr_name != "" ? local.image_uri : null
-  filename         = var.filename != "" ? var.filename : null
-  handler          = var.handler != "" ? var.handler : null
-  source_code_hash = var.source_code_hash != "" ? var.source_code_hash : null
-  runtime          = var.runtime != "" ? var.runtime : null
-  memory_size      = var.memory_size
-  timeout          = var.timeout
-  description      = var.description
-  tags             = merge(local.tags, var.tags)
+  depends_on                     = [null_resource.wait_for_ecr, time_sleep.wait_cloudwatch_logs]
+  function_name                  = "${var.git}-${var.name}"
+  role                           = aws_iam_role.this.arn
+  package_type                   = var.ecr_name != "" ? "Image" : "Zip"
+  image_uri                      = var.ecr_name != "" ? local.image_uri : null
+  filename                       = var.filename != "" ? var.filename : null
+  handler                        = var.handler != "" ? var.handler : null
+  source_code_hash               = var.source_code_hash != "" ? var.source_code_hash : null
+  runtime                        = var.runtime != "" ? var.runtime : null
+  memory_size                    = var.memory_size
+  timeout                        = var.timeout
+  description                    = var.description
+  reserved_concurrent_executions = var.reserved_concurrent_executions
+  tags                           = merge(local.tags, var.tags)
 
   dynamic "environment" {
     for_each = length(keys(var.environment)) > 0 ? [1] : []

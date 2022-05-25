@@ -2,6 +2,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
+data "aws_route53_zone" "this" {
+  name = "oss.champtest.net."
+}
+
 data "archive_file" "this" {
   type        = "zip"
   source_dir  = "${path.module}/../python"
@@ -20,4 +24,5 @@ module "this" {
   function_url_authorization_type = "NONE"
   enable_route53                  = true
   dns_name                        = "terraform-aws-lambda-function-url.oss.champtest.net"
+  zone_id                         = data.aws_route53_zone.this.zone_id
 }

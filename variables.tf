@@ -56,6 +56,12 @@ variable "environment" {
   default     = {}
 }
 
+variable "reserved_concurrent_executions" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#reserved_concurrent_executions"
+  type        = number
+  default     = -1
+}
+
 variable "ecr_account" {
   description = "AWS account of ECR repository"
   type        = string
