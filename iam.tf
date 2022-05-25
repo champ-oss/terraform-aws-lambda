@@ -31,11 +31,9 @@ resource "aws_iam_role_policy_attachment" "ssm" {
 data "aws_iam_policy_document" "this" {
   statement {
     actions = [
+      # "logs:CreateLogGroup", # Dont allow log group creation since we manage that with Terraform
       "logs:CreateLogStream",
       "logs:PutLogEvents"
-
-      # Dont allow log group creation since we manage that with Terraform
-      # "logs:CreateLogGroup",
     ]
     resources = ["*"]
   }

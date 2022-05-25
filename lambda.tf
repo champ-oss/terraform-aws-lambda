@@ -5,7 +5,7 @@ locals {
 # tflint-ignore: terraform_comment_syntax
 //noinspection ConflictingProperties
 resource "aws_lambda_function" "this" {
-  depends_on                     = [null_resource.wait_for_ecr, time_sleep.wait_cloudwatch_logs]
+  depends_on                     = [null_resource.wait_for_ecr]
   function_name                  = "${var.git}-${var.name}"
   role                           = aws_iam_role.this.arn
   package_type                   = var.ecr_name != "" ? "Image" : "Zip"

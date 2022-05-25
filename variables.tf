@@ -158,12 +158,6 @@ variable "disable_wait_for_ecr" {
   default     = false
 }
 
-variable "cloudwatch_destroy_wait" {
-  description = "Time to wait before destroying the CloudWatch log group"
-  type        = string
-  default     = "60s"
-}
-
 variable "description" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#description"
   type        = string
