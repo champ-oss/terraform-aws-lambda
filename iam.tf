@@ -1,6 +1,6 @@
 resource "aws_iam_role" "this" {
   name_prefix        = var.git
-  assume_role_policy = data.aws_iam_policy_document.this.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
   tags               = merge(local.tags, var.tags)
 
   lifecycle {
@@ -8,7 +8,7 @@ resource "aws_iam_role" "this" {
   }
 }
 
-data "aws_iam_policy_document" "this" {
+data "aws_iam_policy_document" "assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
     principals {
@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "this" {
 }
 
 resource "aws_iam_policy" "this" {
-  name_prefix = "${var.git}-ssm-policy"
+  name_prefix = var.git
   policy      = data.aws_iam_policy_document.this.json
 }
 
