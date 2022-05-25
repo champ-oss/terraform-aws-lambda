@@ -3,6 +3,7 @@ package test
 import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"testing"
+	"time"
 )
 
 func TestWithFunctionUrl(t *testing.T) {
@@ -22,4 +23,6 @@ func TestWithFunctionUrl(t *testing.T) {
 	invokeTest(t, arn)
 
 	httpTest(t, "terraform-aws-lambda-function-url.oss.champtest.net")
+
+	time.Sleep(10 * time.Minute)
 }
