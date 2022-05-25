@@ -5,8 +5,8 @@ resource "aws_route53_record" "this" {
   zone_id = var.zone_id
 
   alias {
-    name                   = var.lb_dns_name
-    zone_id                = var.lb_zone_id
+    name                   = var.enable_function_url ? aws_lambda_function_url.this[0].function_url : var.lb_dns_name
+    zone_id                = var.enable_function_url ? null : var.lb_zone_id
     evaluate_target_health = false
   }
 }
