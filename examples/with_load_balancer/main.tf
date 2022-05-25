@@ -36,12 +36,13 @@ module "alb" {
 }
 
 module "this" {
-  source             = "../../"
-  git                = "terraform-aws-lambda"
-  name               = "load-balancer"
-  vpc_id             = module.vpc.vpc_id
-  private_subnet_ids = module.vpc.private_subnets_ids
-  zone_id            = data.aws_route53_zone.this.zone_id
+  source                         = "../../"
+  git                            = "terraform-aws-lambda"
+  name                           = "load-balancer"
+  vpc_id                         = module.vpc.vpc_id
+  private_subnet_ids             = module.vpc.private_subnets_ids
+  zone_id                        = data.aws_route53_zone.this.zone_id
+  reserved_concurrent_executions = 1
 
   # Make the lambda public by attaching to the ALB
   listener_arn         = module.alb.listener_arn

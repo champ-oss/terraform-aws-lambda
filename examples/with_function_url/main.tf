@@ -25,4 +25,5 @@ module "this" {
   enable_route53                  = true
   dns_name                        = "terraform-aws-lambda-function-url.oss.champtest.net"
   zone_id                         = data.aws_route53_zone.this.zone_id
+  reserved_concurrent_executions  = 1
 }
