@@ -22,7 +22,6 @@ module "this" {
   runtime                         = "python3.9"
   enable_function_url             = true
   function_url_authorization_type = "NONE"
-  enable_route53                  = true
   dns_name                        = "terraform-aws-lambda-function-url.oss.champtest.net"
   zone_id                         = data.aws_route53_zone.this.zone_id
   reserved_concurrent_executions  = 1

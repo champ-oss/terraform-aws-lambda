@@ -22,7 +22,10 @@ func TestWithLoadBalancer(t *testing.T) {
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
 	arn := terraform.Output(t, terraformOptions, "arn")
+	functionUrl := terraform.Output(t, terraformOptions, "function_url")
+
 	invokeTest(t, arn)
 
 	httpTest(t, "https://terraform-aws-lambda.oss.champtest.net")
+	httpTest(t, functionUrl)
 }
