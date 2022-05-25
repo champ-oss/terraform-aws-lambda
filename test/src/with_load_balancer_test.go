@@ -24,5 +24,5 @@ func TestWithLoadBalancer(t *testing.T) {
 	arn := terraform.Output(t, terraformOptions, "arn")
 	invokeTest(t, arn)
 
-	httpTest(t, "terraform-aws-lambda.oss.champtest.net")
+	httpTest(t, "https://terraform-aws-lambda.oss.champtest.net")
 }
