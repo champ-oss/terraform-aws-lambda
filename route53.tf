@@ -16,5 +16,6 @@ resource "aws_route53_record" "function_url" {
   name    = var.dns_name
   type    = "CNAME"
   zone_id = var.zone_id
+  ttl     = "300"
   records = [aws_lambda_function_url.this[0].function_url]
 }
