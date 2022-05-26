@@ -56,6 +56,12 @@ variable "environment" {
   default     = {}
 }
 
+variable "reserved_concurrent_executions" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#reserved_concurrent_executions"
+  type        = number
+  default     = -1
+}
+
 variable "ecr_account" {
   description = "AWS account of ECR repository"
   type        = string
@@ -152,12 +158,6 @@ variable "disable_wait_for_ecr" {
   default     = false
 }
 
-variable "cloudwatch_destroy_wait" {
-  description = "Time to wait before destroying the CloudWatch log group"
-  type        = string
-  default     = "60s"
-}
-
 variable "description" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#description"
   type        = string
@@ -165,7 +165,7 @@ variable "description" {
 }
 
 variable "enable_cw_event" {
-  description = "enable cw event"
+  description = "Enable CloudWatch event to trigger the lambda"
   type        = bool
   default     = false
 }
@@ -174,4 +174,16 @@ variable "schedule_expression" {
   description = "schedule expression using cron"
   type        = string
   default     = "cron(15 10 * * ? *)"
+}
+
+variable "enable_function_url" {
+  description = "Create a function URL which is a dedicated HTTP(S) endpoint for your Lambda function"
+  type        = bool
+  default     = false
+}
+
+variable "function_url_authorization_type" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function_url#authorization_type"
+  type        = string
+  default     = "AWS_IAM"
 }
