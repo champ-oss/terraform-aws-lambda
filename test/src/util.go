@@ -52,7 +52,7 @@ func invokeTest(t *testing.T, functionArn string) {
 
 func httpTest(t *testing.T, url string) {
 	t.Log("Calling http url:", url)
-	resp, err := http.Get(fmt.Sprintf("https://%s", url))
+	resp, err := http.Get(url)
 	assert.NoError(t, err)
 
 	t.Log("status code:", resp.StatusCode)

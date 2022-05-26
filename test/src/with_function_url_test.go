@@ -2,20 +2,17 @@ package test
 
 import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"os"
 	"testing"
 )
 
-func TestWithLoadBalancer(t *testing.T) {
+func TestWithFunctionUrl(t *testing.T) {
 	t.Parallel()
 
 	terraformOptions := &terraform.Options{
-		TerraformDir:  "../../examples/with_load_balancer",
+		TerraformDir:  "../../examples/with_function_url",
 		BackendConfig: map[string]interface{}{},
 		EnvVars:       map[string]string{},
-		Vars: map[string]interface{}{
-			"ecr_tag": os.Getenv("GITHUB_SHA"),
-		},
+		Vars:          map[string]interface{}{},
 	}
 	defer terraform.Destroy(t, terraformOptions)
 
@@ -26,6 +23,5 @@ func TestWithLoadBalancer(t *testing.T) {
 
 	invokeTest(t, arn)
 
-	httpTest(t, "https://terraform-aws-lambda.oss.champtest.net")
 	httpTest(t, functionUrl)
 }

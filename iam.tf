@@ -1,6 +1,6 @@
 resource "aws_iam_role" "this" {
   name_prefix        = var.git
-  assume_role_policy = data.aws_iam_policy_document.this.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
   tags               = merge(local.tags, var.tags)
 
   lifecycle {
@@ -8,7 +8,7 @@ resource "aws_iam_role" "this" {
   }
 }
 
-data "aws_iam_policy_document" "this" {
+data "aws_iam_policy_document" "assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
     principals {
@@ -18,17 +18,33 @@ data "aws_iam_policy_document" "this" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "lambda" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  role       = aws_iam_role.this.name
-}
-
-resource "aws_iam_role_policy_attachment" "vpc" {
-  role       = aws_iam_role.this.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
-}
-
 resource "aws_iam_role_policy_attachment" "ssm" {
   role       = aws_iam_role.this.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
+}
+
+data "aws_iam_policy_document" "this" {
+  statement {
+    actions = [
+      # "logs:CreateLogGroup", # Dont allow log group creation since we manage that with Terraform
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "ec2:CreateNetworkInterface",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DeleteNetworkInterface",
+      "ec2:AssignPrivateIpAddresses",
+      "ec2:UnassignPrivateIpAddresses"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "this" {
+  name_prefix = var.git
+  policy      = data.aws_iam_policy_document.this.json
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  policy_arn = aws_iam_policy.this.arn
+  role       = aws_iam_role.this.name
 }
