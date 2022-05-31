@@ -3,7 +3,7 @@ on:
   push:
 
 env:
-  REPO: terraform-aws-lambda
+  REPO: champtitles/terraform-aws-lambda
   SHA: ${{ github.sha }}
   DOCKER_USERNAME: champtitles
   DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_TOKEN }}
