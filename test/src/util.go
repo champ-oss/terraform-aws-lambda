@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cloudwatchlogs"
+	"github.com/aws/aws-sdk-go/service/ecr"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
@@ -94,4 +95,20 @@ func GetLogStream(session *session.Session, region string, logGroup string) *str
 	// Pretty-print the response data.
 	fmt.Println(resp)
 	return stream
+}
+
+// deleteRepo deletes an AWS ECR repo
+func deleteRepo(session *session.Session, repo string) {
+	svc := ecr.New(session, aws.NewConfig().WithRegion(region))
+
+	result, err := svc.DeleteRepository(&ecr.DeleteRepositoryInput{
+		Force:          aws.Bool(true),
+		RepositoryName: &repo,
+	})
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(result)
+	fmt.Println("Repo deleted")
 }
