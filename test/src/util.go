@@ -70,7 +70,7 @@ func checkHttpStatusAndBody(t *testing.T, url, expectedBody string, expectedHttp
 				t.Log(err)
 			} else {
 				t.Logf("body: %s", body)
-				if resp.StatusCode == expectedHttpStatus && string(body) == expectedBody {
+				if resp.StatusCode == expectedHttpStatus && strings.Contains(string(body), expectedBody) {
 					return nil
 				}
 			}
