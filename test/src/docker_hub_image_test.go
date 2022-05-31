@@ -19,6 +19,7 @@ func TestDockerHubImage(t *testing.T) {
 		},
 	}
 	defer terraform.Destroy(t, terraformOptions)
+	terraform.Init(t, terraformOptions)
 
 	// recursively set prevent destroy to false
 	cmd := exec.Command("bash", "-c", "find . -type f -name '*.tf' -exec sed -i'' -e 's/prevent_destroy = true/prevent_destroy = false/g' {} +")
@@ -27,7 +28,7 @@ func TestDockerHubImage(t *testing.T) {
 
 	defer deleteRepo(getAWSSession(), "terraform-aws-lambda/docker-hub")
 
-	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
+	terraform.ApplyAndIdempotent(t, terraformOptions)
 
 	arn := terraform.Output(t, terraformOptions, "arn")
 	invokeTest(t, arn)

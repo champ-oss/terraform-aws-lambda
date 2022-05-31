@@ -36,7 +36,7 @@ jobs:
       - id: set-matrix
         run: echo "::set-output name=matrix::$(go test -list Test | grep -v " " | jq -Rsc '. / "\n" - [""]')"
 
-  module:
+  run-test:
     needs: list-tests
     runs-on: ubuntu-latest
     strategy:
@@ -63,3 +63,9 @@ jobs:
           export PULL_REQUEST_HEAD_SHA=${{ github.event.pull_request.head.sha }}
           go mod download
           go test -v -run ${{ matrix.testcase }}
+
+  module:
+    runs-on: ubuntu-latest
+    needs: run-test
+    steps:
+    - run: echo Done!
