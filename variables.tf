@@ -92,12 +92,6 @@ variable "sync_source_repo" {
   default     = ""
 }
 
-variable "sync_source_tag" {
-  description = "Image tag to sync (ex: v1.0.0)"
-  type        = string
-  default     = ""
-}
-
 variable "filename" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#filename"
   type        = string

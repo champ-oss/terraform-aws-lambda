@@ -8,7 +8,8 @@ module "this" {
   name                           = "docker-hub"
   sync_image                     = true
   sync_source_repo               = "champtitles/terraform-aws-lambda"
-  sync_source_tag                = var.ecr_tag # will get set at runtime by Terratest as GITHUB_SHA
+  ecr_tag                        = var.ecr_tag                       # will get set at runtime by Terratest as GITHUB_SHA
+  ecr_name                       = "terraform-aws-lambda/docker-hub" # ECR repo to create and sync to
   reserved_concurrent_executions = 1
   environment = {
     "FOO" = "BAR"
