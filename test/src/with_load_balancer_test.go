@@ -3,6 +3,7 @@ package test
 import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
+	"net/http"
 	"os"
 	"testing"
 )
@@ -27,6 +28,6 @@ func TestWithLoadBalancer(t *testing.T) {
 
 	invokeTest(t, arn)
 
-	assert.NoError(t, checkHttpStatusAndBody(t, "https://terraform-aws-lambda.oss.champtest.net", "successful", 200))
-	assert.NoError(t, checkHttpStatusAndBody(t, functionUrl, "successful", 200))
+	assert.NoError(t, checkHttpStatusAndBody(t, "https://terraform-aws-lambda.oss.champtest.net", "successful", http.StatusOK))
+	assert.NoError(t, checkHttpStatusAndBody(t, functionUrl, "successful", http.StatusOK))
 }
