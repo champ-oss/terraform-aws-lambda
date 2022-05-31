@@ -67,6 +67,6 @@ jobs:
   module:
     runs-on: ubuntu-latest
     needs: run-test
-    working-directory: .
     steps:
     - run: echo Done!
+      working-directory: .
