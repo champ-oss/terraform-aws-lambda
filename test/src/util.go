@@ -24,7 +24,7 @@ func getAWSSession() *session.Session {
 		SharedConfigState: session.SharedConfigEnable,
 	})
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 	return sess
 }
