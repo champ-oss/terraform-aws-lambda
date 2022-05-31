@@ -1,5 +1,7 @@
 locals {
-  image_uri = "${var.ecr_account}.dkr.ecr.${data.aws_region.this.name}.amazonaws.com/${var.ecr_name}:${var.ecr_tag}"
+  ecr_account = var.ecr_account != "" ? var.ecr_account : data.aws_caller_identity.this.account_id
+
+  image_uri = "${local.ecr_account}.dkr.ecr.${data.aws_region.this.name}.amazonaws.com/${var.ecr_name}:${var.ecr_tag}"
 }
 
 # tflint-ignore: terraform_comment_syntax

@@ -80,6 +80,18 @@ variable "ecr_tag" {
   default     = ""
 }
 
+variable "sync_image" {
+  description = "Sync a specific docker image tag from another location (ex: Docker Hub) to ECR"
+  type        = bool
+  default     = false
+}
+
+variable "sync_source_repo" {
+  description = "Name of the source docker repo to sync (ex: myaccount/myrepo)"
+  type        = string
+  default     = ""
+}
+
 variable "filename" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#filename"
   type        = string

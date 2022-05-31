@@ -1,4 +1,5 @@
 data "aws_region" "this" {}
+data "aws_caller_identity" "this" {}
 
 locals {
   tags = {
@@ -11,7 +12,7 @@ locals {
 
 resource "null_resource" "wait_for_ecr" {
   triggers = {
-    ecr_account = var.ecr_account
+    ecr_account = local.ecr_account
     ecr_name    = var.ecr_name
     ecr_tag     = var.ecr_tag
   }
@@ -25,7 +26,7 @@ resource "null_resource" "wait_for_ecr" {
       AWS_REGION  = data.aws_region.this.name
       ECR_REPO    = var.ecr_name
       IMAGE_TAG   = var.ecr_tag
-      REGISTRY_ID = var.ecr_account
+      REGISTRY_ID = local.ecr_account
     }
   }
 }
