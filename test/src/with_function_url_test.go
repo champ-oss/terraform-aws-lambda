@@ -2,6 +2,7 @@ package test
 
 import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -23,5 +24,5 @@ func TestWithFunctionUrl(t *testing.T) {
 
 	invokeTest(t, arn)
 
-	httpTest(t, functionUrl)
+	assert.NoError(t, checkHttpStatusAndBody(t, functionUrl, "successful", 200))
 }

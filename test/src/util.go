@@ -13,9 +13,14 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+	"time"
 )
 
-var region = "us-east-1"
+const (
+	region            = "us-east-1"
+	retryDelaySeconds = 5
+	retryAttempts     = 36
+)
 
 // getAWSSession Logs in to AWS and return a session
 func getAWSSession() *session.Session {
@@ -51,18 +56,33 @@ func invokeTest(t *testing.T, functionArn string) {
 	assert.True(t, strings.Contains(string(logs), "successful"))
 }
 
-func httpTest(t *testing.T, url string) {
-	t.Log("Calling http url:", url)
-	resp, err := http.Get(url)
-	assert.NoError(t, err)
+func checkHttpStatusAndBody(t *testing.T, url, expectedBody string, expectedHttpStatus int) error {
+	t.Logf("checking %s", url)
 
-	t.Log("status code:", resp.StatusCode)
-	assert.Equal(t, 200, resp.StatusCode)
+	for i := 0; ; i++ {
+		resp, err := http.Get(url)
+		if err != nil {
+			t.Log(err)
+		} else {
+			t.Logf("StatusCode: %d", resp.StatusCode)
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				t.Log(err)
+			} else {
+				t.Logf("body: %s", body)
+				if resp.StatusCode == expectedHttpStatus && string(body) == expectedBody {
+					return nil
+				}
+			}
+		}
 
-	body, err := ioutil.ReadAll(resp.Body)
-	assert.NoError(t, err)
-	t.Log("http response body:", string(body))
-	assert.True(t, strings.Contains(string(body), "successful"))
+		if i >= (retryAttempts - 1) {
+			return fmt.Errorf("timed out while retrying")
+		}
+
+		t.Logf("Retrying in %d seconds...", retryDelaySeconds)
+		time.Sleep(time.Second * retryDelaySeconds)
+	}
 }
 
 func GetLogs(session *session.Session, region string, logGroup string, logStream *string) []*cloudwatchlogs.OutputLogEvent {
