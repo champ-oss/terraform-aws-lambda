@@ -3,6 +3,7 @@ package test
 import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"os"
+	"os/exec"
 	"testing"
 )
 
@@ -18,6 +19,13 @@ func TestDockerHubImage(t *testing.T) {
 		},
 	}
 	defer terraform.Destroy(t, terraformOptions)
+
+	// recursively set prevent destroy to false
+	cmd := exec.Command("bash", "-c", "find . -type f -name '*.tf' -exec sed -i'' -e 's/prevent_destroy = true/prevent_destroy = false/g' {} +")
+	cmd.Dir = "../../"
+	_ = cmd.Run()
+
+	defer deleteRepo(getAWSSession(), "terraform-aws-lambda/docker-hub")
 
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
