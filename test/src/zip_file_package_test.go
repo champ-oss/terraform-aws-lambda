@@ -2,7 +2,6 @@ package test
 
 import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -21,6 +20,4 @@ func TestZip(t *testing.T) {
 
 	arn := terraform.Output(t, terraformOptions, "arn")
 	invokeTest(t, arn)
-
-	assert.False(t, true)
 }
