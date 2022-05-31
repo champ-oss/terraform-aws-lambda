@@ -14,7 +14,7 @@ defaults:
     working-directory: examples/python
 
 jobs:
-  example-docker:
+  example-ecr:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
