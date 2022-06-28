@@ -1,7 +1,7 @@
 locals {
   ecr_account = var.ecr_account != "" ? var.ecr_account : data.aws_caller_identity.this.account_id
-
-  image_uri = "${local.ecr_account}.dkr.ecr.${data.aws_region.this.name}.amazonaws.com/${var.ecr_name}:${var.ecr_tag}"
+  ecr_name    = var.ecr_name != "" ? "${var.ecr_name}-cache" : ""
+  image_uri   = "${local.ecr_account}.dkr.ecr.${data.aws_region.this.name}.amazonaws.com/${local.ecr_name}:${var.ecr_tag}"
 }
 
 # tflint-ignore: terraform_comment_syntax
@@ -10,8 +10,8 @@ resource "aws_lambda_function" "this" {
   depends_on                     = [null_resource.wait_for_ecr]
   function_name                  = "${var.git}-${var.name}"
   role                           = aws_iam_role.this.arn
-  package_type                   = var.ecr_name != "" ? "Image" : "Zip"
-  image_uri                      = var.ecr_name != "" ? local.image_uri : null
+  package_type                   = local.ecr_name != "" ? "Image" : "Zip"
+  image_uri                      = local.ecr_name != "" ? local.image_uri : null
   filename                       = var.filename != "" ? var.filename : null
   handler                        = var.handler != "" ? var.handler : null
   source_code_hash               = var.source_code_hash != "" ? var.source_code_hash : null

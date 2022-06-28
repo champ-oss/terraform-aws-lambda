@@ -13,18 +13,18 @@ locals {
 resource "null_resource" "wait_for_ecr" {
   triggers = {
     ecr_account = local.ecr_account
-    ecr_name    = var.ecr_name
+    ecr_name    = local.ecr_name
     ecr_tag     = var.ecr_tag
   }
   provisioner "local-exec" {
     command     = "sh ${path.module}/wait_for_ecr.sh"
     interpreter = ["/bin/sh", "-c"]
     environment = {
-      DISABLED    = var.ecr_name == "" || var.disable_wait_for_ecr ? "y" : ""
+      DISABLED    = local.ecr_name == "" || var.disable_wait_for_ecr ? "y" : ""
       RETRIES     = 60
       SLEEP       = 5
       AWS_REGION  = data.aws_region.this.name
-      ECR_REPO    = var.ecr_name
+      ECR_REPO    = local.ecr_name
       IMAGE_TAG   = var.ecr_tag
       REGISTRY_ID = local.ecr_account
     }
