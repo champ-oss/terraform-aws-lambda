@@ -11,7 +11,6 @@ locals {
 }
 
 resource "null_resource" "wait_for_ecr" {
-  depends_on = [module.ecr, module.ecr_cache]
   triggers = {
     ecr_account = local.ecr_account
     ecr_name    = local.ecr_name
