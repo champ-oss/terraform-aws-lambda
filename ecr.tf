@@ -1,6 +1,6 @@
 module "ecr" {
   count            = var.sync_image ? 1 : 0
-  source           = "github.com/champ-oss/terraform-aws-ecr.git?ref=v1.0.48-157fc01"
+  source           = "github.com/champ-oss/terraform-aws-ecr.git?ref=v1.0.50-e026d5f"
   name             = var.ecr_name
   sync_image       = true
   sync_source_repo = var.sync_source_repo
