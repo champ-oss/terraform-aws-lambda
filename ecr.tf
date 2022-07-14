@@ -5,7 +5,7 @@ module "ecr" {
   sync_image       = true
   sync_source_repo = var.sync_source_repo
   sync_source_tag  = var.ecr_tag
-  force_delete     = var.force_delete
+  force_delete     = true
 }
 
 module "ecr_cache" {
