@@ -199,9 +199,3 @@ variable "function_url_authorization_type" {
   type        = string
   default     = "AWS_IAM"
 }
-
-variable "force_delete" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository#force_delete"
-  type        = bool
-  default     = false
-}
