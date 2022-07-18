@@ -25,5 +25,9 @@ See the `examples/` folder
 - Supports triggering the Lambda on a schedule (using CloudWatch event)
 - Supports enabling a Lambda function URL
 
+## Usage
+
+<!-- BEGIN_TF_DOCS -->
+<!-- END_TF_DOCS -->
 
 ## Contributing
