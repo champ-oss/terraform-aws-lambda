@@ -22,7 +22,7 @@ resource "null_resource" "wait_for_ecr" {
     environment = {
       DISABLED    = local.ecr_name == "" || var.disable_wait_for_ecr ? "y" : ""
       RETRIES     = 60
-      SLEEP       = 5
+      SLEEP       = 10
       AWS_REGION  = data.aws_region.this.name
       ECR_REPO    = local.ecr_name
       IMAGE_TAG   = var.ecr_tag
