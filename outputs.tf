@@ -17,3 +17,13 @@ output "function_url" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function_url#function_url"
   value       = var.enable_function_url ? aws_lambda_function_url.this[0].function_url : null
 }
+
+output "role_name" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role#name"
+  value       = aws_iam_role.this.name
+}
+
+output "role_arn" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role#arn"
+  value       = aws_iam_role.this.arn
+}
