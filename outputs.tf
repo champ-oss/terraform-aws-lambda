@@ -1,6 +1,11 @@
 output "arn" {
-  description = "Lambda ARN"
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#arn"
   value       = aws_lambda_function.this.arn
+}
+
+output "function_name" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#function_name"
+  value       = aws_lambda_function.this.function_name
 }
 
 output "cloudwatch_log_group" {
