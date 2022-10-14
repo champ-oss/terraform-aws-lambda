@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/aws/aws-sdk-go v1.44.108
-	github.com/gruntwork-io/terratest v0.40.22
+	github.com/gruntwork-io/terratest v0.40.23
 	github.com/stretchr/testify v1.8.0
 )
 
