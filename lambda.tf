@@ -8,7 +8,7 @@ locals {
 //noinspection ConflictingProperties
 resource "aws_lambda_function" "this" {
   depends_on                     = [null_resource.wait_for_ecr]
-  function_name                  = "${var.git}-${var.name}"
+  function_name                  = substr("${var.git}-${var.name}", 0, 64) # 64 max length
   role                           = aws_iam_role.this.arn
   package_type                   = local.ecr_name != "" ? "Image" : "Zip"
   image_uri                      = local.ecr_name != "" ? local.image_uri : null
