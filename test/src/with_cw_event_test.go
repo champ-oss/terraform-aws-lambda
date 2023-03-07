@@ -5,6 +5,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 	"time"
 )
@@ -41,5 +42,12 @@ func TestWithCloudwatchEvent(t *testing.T) {
 
 	logger.Log(t, "checking message in log stream for expected value")
 	expectedResponse := "successful\n"
-	assert.Contains(t, expectedResponse, *outputLogs[3].Message)
+	foundResponse := false
+	for _, message := range outputLogs {
+		if strings.Contains(*message.Message, expectedResponse) {
+			foundResponse = true
+			break
+		}
+	}
+	assert.True(t, foundResponse)
 }
