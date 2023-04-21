@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 	"testing"
-	"time"
+
 )
 
 func TestWithLoadBalancer(t *testing.T) {
@@ -26,7 +26,6 @@ func TestWithLoadBalancer(t *testing.T) {
 
 	arn := terraform.Output(t, terraformOptions, "arn")
 	functionUrl := terraform.Output(t, terraformOptions, "function_url")
-    time.Sleep(300 * time.Second)
 	invokeTest(t, arn)
 
 	assert.NoError(t, checkHttpStatusAndBody(t, "https://terraform-aws-lambda.oss.champtest.net", "successful", http.StatusOK))
