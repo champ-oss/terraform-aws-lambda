@@ -2,6 +2,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
+locals {
+  git = "terraform-aws-lambda"
+}
+
 data "archive_file" "this" {
   type        = "zip"
   source_dir  = "${path.module}/../python-encypt"

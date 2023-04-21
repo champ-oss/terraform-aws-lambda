@@ -2,11 +2,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-locals {
-  git = "terraform-aws-lambda"
-}
-
-
 module "this" {
   source                         = "../../"
   git                            = "terraform-aws-lambda"
