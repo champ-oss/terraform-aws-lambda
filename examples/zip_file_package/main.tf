@@ -8,7 +8,7 @@ locals {
 
 data "archive_file" "this" {
   type        = "zip"
-  source_dir  = "${path.module}/../python-encypt"
+  source_dir  = "${path.module}/../python-encrypt"
   output_path = "package.zip"
 }
 
