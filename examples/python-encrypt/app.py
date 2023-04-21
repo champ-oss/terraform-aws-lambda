@@ -14,7 +14,7 @@ def handler(event, context):
     print("event: ", event)
     print("context: ", context)
     print("successful")
-    logger.info('testing output variable', FOO2)
+    logger.info(f'Foo {FOO2} is output variable')
     return {
         'statusCode': 200,
         'body': json.dumps('successful')
