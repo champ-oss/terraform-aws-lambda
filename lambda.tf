@@ -29,9 +29,7 @@ resource "aws_lambda_function" "this" {
       variables = var.environment
     }
   }
-  lifecycle {
-    ignore_changes = [environment.*.variables]
-  }
+
   dynamic "vpc_config" {
     for_each = var.enable_vpc ? [1] : []
     content {
@@ -39,9 +37,11 @@ resource "aws_lambda_function" "this" {
       subnet_ids         = var.private_subnet_ids
     }
   }
+
   lifecycle {
-    ignore_changes = [last_modified]
+    ignore_changes = [environment]
   }
+
 }
 
 resource "aws_lambda_permission" "lb" {
