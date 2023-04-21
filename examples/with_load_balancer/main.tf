@@ -69,8 +69,8 @@ module "this" {
 # only used to encrypt and decrypt lambda env variables
 module "kms" {
   source          = "github.com/champ-oss/terraform-aws-kms.git?ref=v1.0.30-44f94bf"
-  git             = var.git
-  name            = "alias/${var.git}-lambda"
+  git             = local.git
+  name            = "alias/${local.git}-lambda"
   account_actions = []
 }
 
@@ -80,7 +80,7 @@ data "aws_kms_ciphertext" "this" {
 }
 
 resource "aws_iam_policy" "kms_env_vars" {
-  name_prefix = "${var.git}-kms-env-vars"
+  name_prefix = "${local.git}-kms-env-vars"
   policy      = data.aws_iam_policy_document.kms_env_vars.json
 }
 
