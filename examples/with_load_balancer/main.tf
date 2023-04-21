@@ -60,6 +60,6 @@ module "this" {
   ecr_tag     = var.ecr_tag # will get set at runtime by Terratest as GITHUB_SHA
 
   environment = {
-    "FOO"  = "BAR"
+    "FOO" = "BAR"
   }
 }

@@ -16,9 +16,9 @@ module "this" {
   ecr_tag                        = var.ecr_tag                       # will get set at runtime by Terratest as GITHUB_SHA
   ecr_name                       = "terraform-aws-lambda/docker-hub" # ECR repo to create and sync to
   reserved_concurrent_executions = 1
-  kms_key_arn = module.kms.arn
+  kms_key_arn                    = module.kms.arn
   environment = {
-    "FOO" = "BAR",
+    "FOO"  = "BAR",
     "FOO2" = data.aws_kms_ciphertext.this.ciphertext_blob
   }
 }
