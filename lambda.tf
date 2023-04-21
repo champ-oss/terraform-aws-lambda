@@ -20,7 +20,7 @@ resource "aws_lambda_function" "this" {
   timeout                        = var.timeout
   description                    = var.description
   reserved_concurrent_executions = var.reserved_concurrent_executions
-  kms_key_arn                    = module.kms.arn
+  kms_key_arn                    = var.kms_key_arn != null ? var.kms_key_arn : null
   tags                           = merge(local.tags, var.tags)
 
   dynamic "environment" {

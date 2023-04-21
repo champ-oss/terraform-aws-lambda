@@ -48,32 +48,3 @@ resource "aws_iam_role_policy_attachment" "this" {
   policy_arn = aws_iam_policy.this.arn
   role       = aws_iam_role.this.name
 }
-
-resource "aws_iam_policy" "kms_env_vars" {
-  name_prefix = "${var.git}-kms-env-vars"
-  policy      = data.aws_iam_policy_document.kms_env_vars.json
-}
-
-resource "aws_iam_role_policy_attachment" "kms_env_vars" {
-  role       = aws_iam_role.this.name
-  policy_arn = aws_iam_policy.kms_env_vars.arn
-}
-
-data "aws_iam_policy_document" "kms_env_vars" {
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "kms:Encrypt",
-      "kms:Decrypt",
-      "kms:ReEncrypt*",
-      "kms:DescribeKey",
-      "kms:ListKeys",
-      "kms:GenerateDataKey",
-    ]
-
-    resources = [
-      module.kms.arn,
-    ]
-  }
-}
