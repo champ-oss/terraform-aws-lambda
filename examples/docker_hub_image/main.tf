@@ -18,7 +18,6 @@ module "this" {
   reserved_concurrent_executions = 1
   kms_key_arn                    = module.kms.arn
   environment = {
-    "FOO"  = "BAR",
     "FOO2" = data.aws_kms_ciphertext.this.ciphertext_blob
   }
 }
