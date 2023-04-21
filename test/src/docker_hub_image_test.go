@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"testing"
-	"time"
+
 )
 
 func TestDockerHubImage(t *testing.T) {
@@ -32,6 +32,6 @@ func TestDockerHubImage(t *testing.T) {
 	terraform.ApplyAndIdempotent(t, terraformOptions)
 
 	arn := terraform.Output(t, terraformOptions, "arn")
-	time.Sleep(300 * time.Second)
+
 	invokeTest(t, arn)
 }
