@@ -3,7 +3,6 @@ package test
 import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"testing"
-	"time"
 )
 
 func TestZip(t *testing.T) {
@@ -21,5 +20,4 @@ func TestZip(t *testing.T) {
 
 	arn := terraform.Output(t, terraformOptions, "arn")
 	invokeTest(t, arn)
-	time.Sleep(300 * time.Second)
 }
