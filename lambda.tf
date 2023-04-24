@@ -37,6 +37,9 @@ resource "aws_lambda_function" "this" {
       subnet_ids         = var.private_subnet_ids
     }
   }
+  lifecycle {
+    ignore_changes = [environment] # terraform configuration not idempotent if you pass kms ciphertext to env variable
+  }
 }
 
 resource "aws_lambda_permission" "lb" {
