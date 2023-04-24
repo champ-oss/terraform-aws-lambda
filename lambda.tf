@@ -37,11 +37,6 @@ resource "aws_lambda_function" "this" {
       subnet_ids         = var.private_subnet_ids
     }
   }
-
-  lifecycle {
-    ignore_changes = [environment]
-  }
-
 }
 
 resource "aws_lambda_permission" "lb" {

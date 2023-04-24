@@ -22,6 +22,7 @@ module "this" {
   runtime                        = "python3.9"
   reserved_concurrent_executions = 1
   environment = {
+    "FOO"  = "BAR"
     "FOO2" = data.aws_kms_ciphertext.this.ciphertext_blob
   }
 }
@@ -36,7 +37,10 @@ module "kms" {
 
 data "aws_kms_ciphertext" "this" {
   key_id    = module.kms.key_id
-  plaintext = "BAR"
+  plaintext = "BAR2"
+  lifecycle {
+    ignore_changes        = []
+  }
 }
 
 resource "aws_iam_policy" "kms_env_vars" {
