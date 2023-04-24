@@ -39,7 +39,7 @@ data "aws_kms_ciphertext" "this" {
   key_id    = module.kms.key_id
   plaintext = "BAR2"
   lifecycle {
-    ignore_changes        = []
+    ignore_changes = []
   }
 }
 
