@@ -38,7 +38,7 @@ resource "aws_lambda_function" "this" {
     }
   }
   lifecycle {
-    ignore_changes = [environment] # terraform configuration not idempotent if you pass kms ciphertext to env variable
+    ignore_changes = [environment] # terraform configuration not idempotent if you pass kms ciphertext to environment variable
   }
 }
 
