@@ -5,6 +5,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -13,16 +14,17 @@ import (
 func TestWithCloudwatchEvent(t *testing.T) {
 	t.Parallel()
 
-	region := "us-east-1"
+	region := "us-east-2"
 
 	terraformOptions := &terraform.Options{
-		TerraformDir:  "../../examples/with_cw_event",
-		BackendConfig: map[string]interface{}{},
-		EnvVars:       map[string]string{},
-		Vars:          map[string]interface{}{},
+		TerraformDir: "../../examples/with_cw_event",
+		BackendConfig: map[string]interface{}{
+			"bucket": os.Getenv("TF_STATE_BUCKET"),
+			"key":    "terraform-aws-lambda-with_cw_event",
+		},
+		EnvVars: map[string]string{},
+		Vars:    map[string]interface{}{},
 	}
-	defer terraform.Destroy(t, terraformOptions)
-
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
 	// Calling Sleep method

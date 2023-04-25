@@ -4,6 +4,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 	"net/http"
+	"os"
 	"testing"
 )
 
@@ -11,13 +12,14 @@ func TestWithFunctionUrl(t *testing.T) {
 	t.Parallel()
 
 	terraformOptions := &terraform.Options{
-		TerraformDir:  "../../examples/with_function_url",
-		BackendConfig: map[string]interface{}{},
-		EnvVars:       map[string]string{},
-		Vars:          map[string]interface{}{},
+		TerraformDir: "../../examples/with_function_url",
+		BackendConfig: map[string]interface{}{
+			"bucket": os.Getenv("TF_STATE_BUCKET"),
+			"key":    "terraform-aws-lambda-with_function_url",
+		},
+		EnvVars: map[string]string{},
+		Vars:    map[string]interface{}{},
 	}
-	defer terraform.Destroy(t, terraformOptions)
-
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
 	arn := terraform.Output(t, terraformOptions, "arn")

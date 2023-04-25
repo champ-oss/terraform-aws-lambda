@@ -10,15 +10,14 @@ func TestECRDockerImage(t *testing.T) {
 	t.Parallel()
 
 	terraformOptions := &terraform.Options{
-		TerraformDir:  "../../examples/ecr_docker_image",
-		BackendConfig: map[string]interface{}{},
-		EnvVars:       map[string]string{},
-		Vars: map[string]interface{}{
-			"ecr_tag": os.Getenv("GITHUB_SHA"),
+		TerraformDir: "../../examples/ecr_docker_image",
+		BackendConfig: map[string]interface{}{
+			"bucket": os.Getenv("TF_STATE_BUCKET"),
+			"key":    "terraform-aws-lambda-ecr_docker_image",
 		},
+		EnvVars: map[string]string{},
+		Vars:    map[string]interface{}{},
 	}
-	defer terraform.Destroy(t, terraformOptions)
-
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
 	arn := terraform.Output(t, terraformOptions, "arn")

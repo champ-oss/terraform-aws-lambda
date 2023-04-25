@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	region            = "us-east-1"
+	region            = "us-east-2"
 	retryDelaySeconds = 5
 	retryAttempts     = 36
 )

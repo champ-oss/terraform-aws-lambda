@@ -11,14 +11,14 @@ func TestDockerHubImage(t *testing.T) {
 	t.Parallel()
 
 	terraformOptions := &terraform.Options{
-		TerraformDir:  "../../examples/docker_hub_image",
-		BackendConfig: map[string]interface{}{},
-		EnvVars:       map[string]string{},
-		Vars: map[string]interface{}{
-			"ecr_tag": os.Getenv("GITHUB_SHA"),
+		TerraformDir: "../../examples/docker_hub_image",
+		BackendConfig: map[string]interface{}{
+			"bucket": os.Getenv("TF_STATE_BUCKET"),
+			"key":    "terraform-aws-lambda-docker_hub_image",
 		},
+		EnvVars: map[string]string{},
+		Vars:    map[string]interface{}{},
 	}
-	defer terraform.Destroy(t, terraformOptions)
 	terraform.Init(t, terraformOptions)
 
 	// recursively set prevent destroy to false
