@@ -34,14 +34,6 @@ resource "aws_apigatewayv2_integration" "this" {
   integration_method = var.api_gateway_integration_method
   integration_uri    = aws_lambda_function.this.invoke_arn
   connection_type    = "INTERNET"
-
-  tls_config {
-    server_name_to_verify = var.api_gateway_dns_name
-  }
-
-  request_parameters = {
-    "overwrite:header.host" = var.api_gateway_dns_name
-  }
 }
 
 resource "aws_apigatewayv2_stage" "this" {
