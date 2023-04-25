@@ -30,7 +30,7 @@ resource "aws_apigatewayv2_authorizer" "this" {
 resource "aws_apigatewayv2_integration" "this" {
   count              = var.enable_api_gateway ? 1 : 0
   api_id             = aws_apigatewayv2_api.this[0].id
-  integration_type   = "HTTP_PROXY"
+  integration_type   = "AWS_PROXY"
   integration_method = var.api_gateway_integration_method
   integration_uri    = aws_lambda_function.this.invoke_arn
   connection_type    = "INTERNET"
