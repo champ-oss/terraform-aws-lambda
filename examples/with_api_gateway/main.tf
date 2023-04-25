@@ -77,6 +77,7 @@ module "this" {
   git                            = "terraform-aws-lambda"
   name                           = "api-gateway"
   reserved_concurrent_executions = 1
+  enable_api_gateway             = true
   api_gateway_dns_name           = "terraform-aws-lambda-apigw.oss.champtest.net"
   api_gateway_jwt_issuer         = "${module.keycloak.keycloak_endpoint}/realms/master"
   api_gateway_certificate_arn    = module.acm.arn
