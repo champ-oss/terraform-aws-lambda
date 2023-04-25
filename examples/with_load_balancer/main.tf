@@ -62,6 +62,12 @@ module "alb" {
   protect         = false
 }
 
+module "hash" {
+  source   = "github.com/champ-oss/terraform-git-hash.git?ref=v1.0.12-fc3bb87"
+  path     = "${path.module}/.."
+  fallback = ""
+}
+
 module "this" {
   source                          = "../../"
   git                             = "terraform-aws-lambda"
@@ -84,7 +90,7 @@ module "this" {
   dns_name    = "terraform-aws-lambda.oss.champtest.net"
   ecr_account = "912455136424"
   ecr_name    = "terraform-aws-lambda"
-  ecr_tag     = var.ecr_tag # will get set at runtime by Terratest as GITHUB_SHA
+  ecr_tag     = module.hash.hash
 
   environment = {
     "FOO" = "BAR"
