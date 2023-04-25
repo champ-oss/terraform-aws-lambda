@@ -81,6 +81,7 @@ module "this" {
   api_gateway_dns_name           = "terraform-aws-lambda-apigw.oss.champtest.net"
   api_gateway_jwt_issuer         = "${module.keycloak.keycloak_endpoint}/realms/master"
   api_gateway_certificate_arn    = module.acm.arn
+  zone_id                        = data.aws_route53_zone.this.zone_id
   ecr_account                    = "912455136424"
   ecr_name                       = "terraform-aws-lambda"
   ecr_tag                        = module.hash.hash
