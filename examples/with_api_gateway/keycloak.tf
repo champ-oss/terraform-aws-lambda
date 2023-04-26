@@ -31,8 +31,13 @@ provider "keycloak" {
   initial_login = false
 }
 
+resource "time_sleep" "this" {
+  depends_on      = [module.keycloak]
+  create_duration = "30s"
+}
+
 data "keycloak_realm" "this" {
-  depends_on = [module.keycloak]
+  depends_on = [time_sleep.this]
   realm      = "master"
 }
 
