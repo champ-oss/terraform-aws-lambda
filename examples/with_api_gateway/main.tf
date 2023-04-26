@@ -52,31 +52,6 @@ module "hash" {
   fallback = ""
 }
 
-module "acm_keycloak" {
-  source            = "github.com/champ-oss/terraform-aws-acm.git?ref=v1.0.111-28fcc7c"
-  git               = local.git
-  domain_name       = "${local.keycloak_hostname}.${data.aws_route53_zone.this.name}"
-  create_wildcard   = false
-  zone_id           = data.aws_route53_zone.this.zone_id
-  enable_validation = true
-}
-
-# Used for JWT auth
-module "keycloak" {
-  depends_on          = [module.acm_keycloak]
-  source              = "github.com/champ-oss/terraform-aws-keycloak.git?ref=v1.0.23-30e273e"
-  certificate_arn     = module.acm_keycloak.arn
-  public_subnet_ids   = data.aws_subnets.public.ids
-  private_subnet_ids  = data.aws_subnets.private.ids
-  vpc_id              = data.aws_vpcs.this.ids[0]
-  domain              = data.aws_route53_zone.this.name
-  zone_id             = data.aws_route53_zone.this.zone_id
-  keycloak_hostname   = local.keycloak_hostname
-  protect             = false
-  skip_final_snapshot = true
-  enable_cluster      = false
-}
-
 module "acm" {
   source            = "github.com/champ-oss/terraform-aws-acm.git?ref=v1.0.111-28fcc7c"
   git               = local.git
