@@ -6,7 +6,6 @@ import (
 	"github.com/Nerzal/gocloak/v13"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
-	"k8s.io/utils/strings"
 	"net/http"
 	"os"
 	"testing"
@@ -30,7 +29,7 @@ func TestWithApiGateway(t *testing.T) {
 	keycloakEndpoint := terraform.Output(t, terraformOptions, "keycloak_endpoint")
 
 	jwt := getKeycloakJwt(keycloakEndpoint, "master", "admin", keycloakPassword)
-	fmt.Println("Keycloak Jwt:", strings.ShortenString(jwt, 10))
+	fmt.Println("Keycloak Jwt:", jwt)
 
 	assert.NoError(t, checkHttpStatusAndBody(t, "https://terraform-aws-lambda-apigw.oss.champtest.net", jwt, "successful", http.StatusOK))
 }
