@@ -7,7 +7,7 @@ module "acm_keycloak" {
   enable_validation = true
 }
 
-# Used for JWT auth
+# Used to test JWT auth with the API Gateway authorizer
 module "keycloak" {
   depends_on          = [module.acm_keycloak]
   source              = "github.com/champ-oss/terraform-aws-keycloak.git?ref=v1.0.23-30e273e"
@@ -41,6 +41,7 @@ data "keycloak_openid_client_scope" "this" {
   name     = "profile"
 }
 
+# API Gateway expects the "audience" field to be set in the JWT
 resource "keycloak_openid_audience_protocol_mapper" "this" {
   realm_id                 = data.keycloak_realm.this.id
   client_scope_id          = data.keycloak_openid_client_scope.this.id
