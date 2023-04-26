@@ -30,7 +30,7 @@ func TestWithApiGateway(t *testing.T) {
 	keycloakEndpoint := terraform.Output(t, terraformOptions, "keycloak_endpoint")
 
 	jwt := getKeycloakJwt(keycloakEndpoint, "master", "admin", keycloakPassword)
-	fmt.Println("Keycloak Jwt: ", strings.ShortenString(jwt, 10))
+	fmt.Println("Keycloak Jwt:", strings.ShortenString(jwt, 10))
 
 	assert.NoError(t, checkHttpStatusAndBody(t, "https://terraform-aws-lambda-apigw.oss.champtest.net", jwt, "successful", http.StatusOK))
 }
