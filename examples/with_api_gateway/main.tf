@@ -1,5 +1,10 @@
 terraform {
   backend "s3" {}
+  required_providers {
+    keycloak = {
+      source = "mrparkers/keycloak"
+    }
+  }
 }
 
 provider "aws" {
