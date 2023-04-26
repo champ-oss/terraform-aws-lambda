@@ -7,6 +7,7 @@ require (
 	github.com/aws/aws-sdk-go v1.44.247
 	github.com/gruntwork-io/terratest v0.41.18
 	github.com/stretchr/testify v1.8.2
+	k8s.io/utils v0.0.0-20201110183641-67b214c5f920
 )
 
 require (
