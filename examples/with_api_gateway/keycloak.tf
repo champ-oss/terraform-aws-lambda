@@ -31,7 +31,19 @@ provider "keycloak" {
   initial_login = false
 }
 
-data "keycloak_realm" "master" {
+data "keycloak_realm" "this" {
   depends_on = [module.keycloak]
   realm      = "master"
+}
+
+data "keycloak_openid_client_scope" "this" {
+  realm_id = data.keycloak_realm.this.id
+  name     = "profile"
+}
+
+resource "keycloak_openid_audience_protocol_mapper" "this" {
+  realm_id                 = data.keycloak_realm.this.id
+  client_scope_id          = data.keycloak_openid_client_scope.this.id
+  name                     = "audience"
+  included_client_audience = "account"
 }
