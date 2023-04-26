@@ -3,6 +3,7 @@ module github.com/champ-oss/terraform-aws-lambda
 go 1.17
 
 require (
+	github.com/Nerzal/gocloak/v13 v13.3.0
 	github.com/aws/aws-sdk-go v1.44.247
 	github.com/gruntwork-io/terratest v0.41.18
 	github.com/stretchr/testify v1.8.2
@@ -18,6 +19,8 @@ require (
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/go-resty/resty/v2 v2.7.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
@@ -40,12 +43,15 @@ require (
 	github.com/mitchellh/go-testing-interface v1.14.1 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
+	github.com/opentracing/opentracing-go v1.2.0 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/segmentio/ksuid v1.0.4 // indirect
 	github.com/tmccombs/hcl2json v0.3.3 // indirect
 	github.com/ulikunitz/xz v0.5.10 // indirect
 	github.com/zclconf/go-cty v1.9.1 // indirect
 	go.opencensus.io v0.24.0 // indirect
-	golang.org/x/crypto v0.1.0 // indirect
+	golang.org/x/crypto v0.6.0 // indirect
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/oauth2 v0.1.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect

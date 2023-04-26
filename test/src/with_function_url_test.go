@@ -27,5 +27,5 @@ func TestWithFunctionUrl(t *testing.T) {
 
 	invokeTest(t, arn)
 
-	assert.NoError(t, checkHttpStatusAndBody(t, functionUrl, "successful", http.StatusOK))
+	assert.NoError(t, checkHttpStatusAndBody(t, functionUrl, "", "successful", http.StatusOK))
 }

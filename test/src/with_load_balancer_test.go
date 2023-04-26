@@ -27,6 +27,6 @@ func TestWithLoadBalancer(t *testing.T) {
 
 	invokeTest(t, arn)
 
-	assert.NoError(t, checkHttpStatusAndBody(t, "https://terraform-aws-lambda.oss.champtest.net", "successful", http.StatusOK))
-	assert.NoError(t, checkHttpStatusAndBody(t, functionUrl, "successful", http.StatusOK))
+	assert.NoError(t, checkHttpStatusAndBody(t, "https://terraform-aws-lambda.oss.champtest.net", "", "successful", http.StatusOK))
+	assert.NoError(t, checkHttpStatusAndBody(t, functionUrl, "", "successful", http.StatusOK))
 }
