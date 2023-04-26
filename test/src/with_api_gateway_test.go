@@ -24,14 +24,19 @@ func TestWithApiGateway(t *testing.T) {
 		EnvVars: map[string]string{},
 		Vars:    map[string]interface{}{},
 	}
+	defer terraform.Destroy(t, terraformOptions)
+
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
 	keycloakPassword := terraform.Output(t, terraformOptions, "keycloak_admin_password")
 	keycloakEndpoint := terraform.Output(t, terraformOptions, "keycloak_endpoint")
 
+	// Validate that JWT auth is required
+	assert.NoError(t, checkHttpStatusAndBody(t, "https://terraform-aws-lambda-apigw.oss.champtest.net", "", "{\"message\":\"Unauthorized\"}", http.StatusUnauthorized))
+
+	// Get a JWT from Keycloak and test a successful request
 	jwt := getKeycloakJwt(keycloakEndpoint, "master", "admin", keycloakPassword)
 	fmt.Println("Keycloak Jwt:", strings.ShortenString(jwt, 10))
-
 	assert.NoError(t, checkHttpStatusAndBody(t, "https://terraform-aws-lambda-apigw.oss.champtest.net", jwt, "successful", http.StatusOK))
 }
 
