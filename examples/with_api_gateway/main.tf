@@ -67,7 +67,7 @@ module "acm" {
 }
 
 module "this" {
-  depends_on                     = [module.keycloak, module.acm]
+  depends_on                     = [module.keycloak, module.acm, time_sleep.this]
   source                         = "../../"
   git                            = "terraform-aws-lambda"
   name                           = "api-gateway"
