@@ -33,7 +33,7 @@ provider "keycloak" {
 
 resource "time_sleep" "this" {
   depends_on      = [module.keycloak]
-  create_duration = "30s"
+  create_duration = "60s"
 }
 
 data "keycloak_realm" "this" {
