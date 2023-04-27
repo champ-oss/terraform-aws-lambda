@@ -38,14 +38,9 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v3
-      - uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          aws-region: ${{ env.AWS_DEFAULT_REGION }}
-      - run: go mod download
       - id: set-matrix
         run: |
-          TESTS=$(go test -list Test | grep -v " " | jq -Rsc '. / "\n" - [""]')
+          TESTS=$(grep -ir 'func Test' . | cut -d ' ' -f 2 | cut -d '(' -f 1 | jq -Rsc '. / "\n" - [""]')
           echo $TESTS
           echo "TESTS=$TESTS" >> $GITHUB_OUTPUT
     outputs:
