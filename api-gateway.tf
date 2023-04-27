@@ -43,7 +43,7 @@ resource "aws_apigatewayv2_stage" "this" {
   auto_deploy = true
 
   access_log_settings {
-    destination_arn = aws_cloudwatch_log_group.apigw.arn
+    destination_arn = aws_cloudwatch_log_group.apigw[0].arn
     format = jsonencode(
       {
         httpMethod     = "$context.httpMethod"

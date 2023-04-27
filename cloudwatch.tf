@@ -5,6 +5,7 @@ resource "aws_cloudwatch_log_group" "this" {
 }
 
 resource "aws_cloudwatch_log_group" "apigw" {
+  count             = var.enable_api_gateway ? 1 : 0
   name              = "/aws/apigateway/${var.git}-${var.name}"
   retention_in_days = var.retention_in_days
   tags              = merge(local.tags, var.tags)
