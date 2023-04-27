@@ -1,5 +1,9 @@
+terraform {
+  backend "s3" {}
+}
+
 provider "aws" {
-  region = "us-east-1"
+  region = "us-east-2"
 }
 
 data "aws_route53_zone" "this" {

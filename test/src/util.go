@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	region            = "us-east-1"
+	region            = "us-east-2"
 	retryDelaySeconds = 5
 	retryAttempts     = 36
 )
@@ -56,11 +56,14 @@ func invokeTest(t *testing.T, functionArn string) {
 	assert.True(t, strings.Contains(string(logs), "successful"))
 }
 
-func checkHttpStatusAndBody(t *testing.T, url, expectedBody string, expectedHttpStatus int) error {
+func checkHttpStatusAndBody(t *testing.T, url, authToken, expectedBody string, expectedHttpStatus int) error {
 	t.Logf("checking %s", url)
+	client := &http.Client{}
+	request, _ := http.NewRequest("GET", url, nil)
+	request.Header.Set("Authorization", authToken)
 
 	for i := 0; ; i++ {
-		resp, err := http.Get(url)
+		resp, err := client.Do(request)
 		if err != nil {
 			t.Log(err)
 		} else {
