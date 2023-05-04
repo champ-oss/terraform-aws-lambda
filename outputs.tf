@@ -3,6 +3,11 @@ output "arn" {
   value       = aws_lambda_function.this.arn
 }
 
+output "invoke_arn" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#invoke_arn"
+  value       = aws_lambda_function.this.invoke_arn
+}
+
 output "function_name" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#function_name"
   value       = aws_lambda_function.this.function_name
