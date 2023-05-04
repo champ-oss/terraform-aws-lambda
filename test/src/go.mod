@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/Nerzal/gocloak/v13 v13.3.0
-	github.com/aws/aws-sdk-go v1.44.251
+	github.com/aws/aws-sdk-go v1.44.256
 	github.com/gruntwork-io/terratest v0.41.18
 	github.com/stretchr/testify v1.8.2
 	k8s.io/utils v0.0.0-20201110183641-67b214c5f920
