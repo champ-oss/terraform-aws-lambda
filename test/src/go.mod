@@ -3,7 +3,7 @@ module github.com/champ-oss/terraform-aws-lambda
 go 1.17
 
 require (
-	github.com/Nerzal/gocloak/v13 v13.3.0
+	github.com/Nerzal/gocloak/v13 v13.5.0
 	github.com/aws/aws-sdk-go v1.44.251
 	github.com/gruntwork-io/terratest v0.41.18
 	github.com/stretchr/testify v1.8.2
