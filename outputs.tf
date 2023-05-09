@@ -32,3 +32,8 @@ output "role_arn" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role#arn"
   value       = aws_iam_role.this.arn
 }
+
+output "api_gateway_v1_resource_id" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_resource#id"
+  value       = var.enable_api_gateway_v1 ? aws_api_gateway_resource.this[0].id : null
+}

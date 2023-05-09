@@ -22,5 +22,5 @@ func TestApiGatewayV1(t *testing.T) {
 	}
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 	domainName := terraform.Output(t, terraformOptions, "domain_name")
-	assert.NoError(t, checkHttpStatusAndBody(t, "https://"+domainName, "", "successful", http.StatusOK))
+	assert.NoError(t, checkHttpStatusAndBody(t, "https://"+domainName+"/test", "", "successful", http.StatusOK))
 }
