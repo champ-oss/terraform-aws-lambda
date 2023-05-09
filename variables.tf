@@ -200,44 +200,20 @@ variable "function_url_authorization_type" {
   default     = "AWS_IAM"
 }
 
-variable "enable_api_gateway" {
-  description = "Create API Gateway to expose the Lambda to the Internet using JWT authentication"
-  type        = bool
-  default     = false
-}
-
-variable "api_gateway_identity_sources" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_authorizer#identity_sources"
+variable "image_config_command" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#command"
   type        = list(string)
-  default     = ["$request.header.Authorization"]
+  default     = null
 }
 
-variable "api_gateway_jwt_issuer" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_authorizer#issuer"
-  type        = string
-  default     = ""
-}
-
-variable "api_gateway_jwt_audience" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_authorizer#audience"
+variable "image_config_entry_point" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#entry_point"
   type        = list(string)
-  default     = ["account"]
+  default     = null
 }
 
-variable "api_gateway_integration_method" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_integration#integration_method"
-  type        = string
-  default     = "POST"
-}
-
-variable "api_gateway_dns_name" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record#name"
-  type        = string
-  default     = ""
-}
-
-variable "api_gateway_certificate_arn" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_domain_name#certificate_arn"
+variable "image_config_working_directory" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#working_directory"
   type        = string
   default     = null
 }

@@ -36,6 +36,15 @@ resource "aws_lambda_function" "this" {
       subnet_ids         = var.private_subnet_ids
     }
   }
+
+  dynamic "image_config" {
+    for_each = var.image_config_command != null || var.image_config_entry_point != null || var.image_config_working_directory != null ? [1] : []
+    content {
+      command           = var.image_config_command
+      entry_point       = var.image_config_entry_point
+      working_directory = var.image_config_working_directory
+    }
+  }
 }
 
 resource "aws_lambda_permission" "lb" {
@@ -50,12 +59,4 @@ resource "aws_lambda_permission" "cloudwatch" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.this.arn
   principal     = "logs.${data.aws_region.this.name}.amazonaws.com"
-}
-
-resource "aws_lambda_permission" "apigw" {
-  count         = var.enable_api_gateway ? 1 : 0
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.this.arn
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.this[0].execution_arn}/*"
 }
