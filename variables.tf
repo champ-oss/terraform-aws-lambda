@@ -241,3 +241,21 @@ variable "api_gateway_certificate_arn" {
   type        = string
   default     = null
 }
+
+variable "image_config_command" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#command"
+  type        = list(string)
+  default     = null
+}
+
+variable "image_config_entry_point" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#entry_point"
+  type        = list(string)
+  default     = null
+}
+
+variable "image_config_working_directory" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#working_directory"
+  type        = string
+  default     = null
+}

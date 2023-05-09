@@ -36,6 +36,12 @@ resource "aws_lambda_function" "this" {
       subnet_ids         = var.private_subnet_ids
     }
   }
+
+  image_config {
+    command           = var.image_config_command
+    entry_point       = var.image_config_entry_point
+    working_directory = var.image_config_working_directory
+  }
 }
 
 resource "aws_lambda_permission" "lb" {

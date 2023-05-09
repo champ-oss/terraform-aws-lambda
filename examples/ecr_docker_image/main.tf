@@ -19,6 +19,7 @@ module "this" {
   ecr_name                       = "terraform-aws-lambda"
   ecr_tag                        = module.hash.hash
   reserved_concurrent_executions = 1
+  image_config_command           = ["app.handler"]
   environment = {
     "FOO" = "BAR"
   }
