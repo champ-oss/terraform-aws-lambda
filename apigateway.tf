@@ -10,7 +10,7 @@ resource "aws_api_gateway_method" "this" {
   rest_api_id   = var.api_gateway_v1_rest_api_id
   resource_id   = aws_api_gateway_resource.this[0].id
   http_method   = var.api_gateway_v1_http_method
-  authorization = "NONE"
+  authorization = "NONE" # NOSONAR uses authentication from API Gateway root
 }
 
 resource "aws_api_gateway_integration" "this" {
