@@ -22,5 +22,10 @@ func TestApiGatewayV1(t *testing.T) {
 	}
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 	domainName := terraform.Output(t, terraformOptions, "domain_name")
+
+	// Test API Gateway with Lambda at the root path
+	assert.NoError(t, checkHttpStatusAndBody(t, "https://"+domainName, "", "successful", http.StatusOK))
+
+	// Test API Gateway with Lambda at /test
 	assert.NoError(t, checkHttpStatusAndBody(t, "https://"+domainName+"/test", "", "successful", http.StatusOK))
 }
