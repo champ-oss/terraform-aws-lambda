@@ -37,10 +37,13 @@ resource "aws_lambda_function" "this" {
     }
   }
 
-  image_config {
-    command           = var.image_config_command
-    entry_point       = var.image_config_entry_point
-    working_directory = var.image_config_working_directory
+  dynamic "image_config" {
+    for_each = local.ecr_name != "" ? [1] : []
+    content {
+      command           = var.image_config_command
+      entry_point       = var.image_config_entry_point
+      working_directory = var.image_config_working_directory
+    }
   }
 }
 
