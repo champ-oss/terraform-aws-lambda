@@ -23,3 +23,18 @@ resource "aws_api_gateway_integration" "this" {
   uri                     = "arn:aws:apigateway:${data.aws_region.this.name}:lambda:path/2015-03-31/functions/${aws_lambda_function.this.arn}/invocations"
 }
 
+resource "aws_api_gateway_deployment" "this" {
+  count       = var.enable_api_gateway_v1 ? 1 : 0
+  rest_api_id = var.api_gateway_v1_rest_api_id
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_resource.this[0].id,
+      aws_api_gateway_method.this[0].id,
+      aws_api_gateway_integration.this[0].id
+    ]))
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
