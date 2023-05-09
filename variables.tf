@@ -217,3 +217,33 @@ variable "image_config_working_directory" {
   type        = string
   default     = null
 }
+
+variable "enable_api_gateway_v1" {
+  description = "Create resource, method, and integration with API Gateway v1"
+  type        = bool
+  default     = false
+}
+
+variable "api_gateway_v1_rest_api_id" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_resource#rest_api_id"
+  type        = string
+  default     = null
+}
+
+variable "api_gateway_v1_parent_resource_id" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_resource#parent_id"
+  type        = string
+  default     = null
+}
+
+variable "api_gateway_v1_path_part" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_resource#path_part"
+  type        = string
+  default     = null
+}
+
+variable "api_gateway_v1_http_method" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method#http_method"
+  type        = string
+  default     = "ANY"
+}
