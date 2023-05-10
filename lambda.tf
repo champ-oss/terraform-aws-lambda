@@ -60,3 +60,11 @@ resource "aws_lambda_permission" "cloudwatch" {
   function_name = aws_lambda_function.this.arn
   principal     = "logs.${data.aws_region.this.name}.amazonaws.com"
 }
+
+resource "aws_lambda_permission" "api_gateway_v1" {
+  count         = var.enable_api_gateway_v1 ? 1 : 0
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.this.arn
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "arn:aws:execute-api:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:${var.api_gateway_v1_rest_api_id}/*/${aws_api_gateway_method.this[0].http_method}${aws_api_gateway_resource.this[0].path}"
+}

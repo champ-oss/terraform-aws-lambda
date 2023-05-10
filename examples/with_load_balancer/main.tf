@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 locals {
-  git = "terraform-aws-alb"
+  git = "terraform-aws-lambda"
 }
 
 data "aws_route53_zone" "this" {
