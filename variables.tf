@@ -265,3 +265,15 @@ variable "api_gateway_v1_resource_path" {
   type        = string
   default     = null
 }
+
+variable "enable_custom_iam_policy" {
+  description = "Attach a custom IAM policy to the Lambda IAM role"
+  type        = bool
+  default     = false
+}
+
+variable "custom_iam_policy_arn" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment#policy_arn"
+  type        = string
+  default     = null
+}
