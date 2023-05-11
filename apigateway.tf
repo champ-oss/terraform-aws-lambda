@@ -1,6 +1,6 @@
 locals {
-  api_gateway_v1_resource_id   = var.create_api_gateway_v1_resource ? aws_api_gateway_resource.this[0].id : var.api_gateway_v1_resource_id
-  api_gateway_v1_resource_path = var.create_api_gateway_v1_resource ? aws_api_gateway_resource.this[0].path : var.api_gateway_v1_resource_path
+  api_gateway_v1_resource_id   = var.enable_api_gateway_v1 && var.create_api_gateway_v1_resource ? aws_api_gateway_resource.this[0].id : var.api_gateway_v1_resource_id
+  api_gateway_v1_resource_path = var.enable_api_gateway_v1 && var.create_api_gateway_v1_resource ? aws_api_gateway_resource.this[0].path : var.api_gateway_v1_resource_path
 }
 
 resource "aws_api_gateway_resource" "this" {
