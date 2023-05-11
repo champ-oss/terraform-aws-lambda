@@ -247,3 +247,15 @@ variable "api_gateway_v1_http_method" {
   type        = string
   default     = "ANY"
 }
+
+variable "create_api_gateway_v1_resource" {
+  description = "Create a API Gateway base resource. If disabled, an existing resource ID must be provided."
+  type        = bool
+  default     = true
+}
+
+variable "api_gateway_v1_resource_id" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method#resource_id"
+  type        = string
+  default     = null
+}

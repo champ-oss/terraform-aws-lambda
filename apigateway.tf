@@ -1,5 +1,5 @@
 resource "aws_api_gateway_resource" "this" {
-  count       = var.enable_api_gateway_v1 ? 1 : 0
+  count       = var.enable_api_gateway_v1 && var.create_api_gateway_v1_resource ? 1 : 0
   rest_api_id = var.api_gateway_v1_rest_api_id
   parent_id   = var.api_gateway_v1_parent_resource_id
   path_part   = var.api_gateway_v1_path_part
@@ -8,7 +8,7 @@ resource "aws_api_gateway_resource" "this" {
 resource "aws_api_gateway_method" "this" {
   count         = var.enable_api_gateway_v1 ? 1 : 0
   rest_api_id   = var.api_gateway_v1_rest_api_id
-  resource_id   = aws_api_gateway_resource.this[0].id
+  resource_id   = var.create_api_gateway_v1_resource ? aws_api_gateway_resource.this[0].id : var.api_gateway_v1_resource_id
   http_method   = var.api_gateway_v1_http_method
   authorization = "NONE" # NOSONAR uses authentication from API Gateway root
 }

@@ -49,8 +49,28 @@ module "this" {
   api_gateway_v1_rest_api_id        = module.api_gateway.api_gateway_v1_id
   api_gateway_v1_parent_resource_id = module.api_gateway.api_gateway_v1_root_resource_id
   api_gateway_v1_path_part          = "test"
+}
 
-  environment = {
-    "FOO" = "BAR"
-  }
+# Create a separate resource to attach a lambda
+resource "aws_api_gateway_resource" "this" {
+  rest_api_id = module.api_gateway.api_gateway_v1_id
+  parent_id   = module.api_gateway.api_gateway_v1_root_resource_id
+  path_part   = "test2"
+}
+
+module "lambda_separate_resource" {
+  source                         = "../../"
+  git                            = "terraform-aws-lambda"
+  name                           = "api-gateway-v1-test2"
+  filename                       = data.archive_file.this.output_path
+  source_code_hash               = data.archive_file.this.output_base64sha256
+  handler                        = "app.handler"
+  runtime                        = "python3.9"
+  reserved_concurrent_executions = 1
+
+  # Attach the lambda to the separate resource created above
+  enable_api_gateway_v1          = true
+  api_gateway_v1_rest_api_id     = module.api_gateway.api_gateway_v1_id
+  create_api_gateway_v1_resource = false
+  api_gateway_v1_resource_id     = aws_api_gateway_resource.this.id
 }
