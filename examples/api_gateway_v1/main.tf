@@ -73,4 +73,5 @@ module "lambda_separate_resource" {
   api_gateway_v1_rest_api_id     = module.api_gateway.api_gateway_v1_id
   create_api_gateway_v1_resource = false
   api_gateway_v1_resource_id     = aws_api_gateway_resource.this.id
+  api_gateway_v1_resource_path   = aws_api_gateway_resource.this.path
 }

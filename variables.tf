@@ -259,3 +259,9 @@ variable "api_gateway_v1_resource_id" {
   type        = string
   default     = null
 }
+
+variable "api_gateway_v1_resource_path" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_resource#path"
+  type        = string
+  default     = null
+}
