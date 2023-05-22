@@ -48,3 +48,9 @@ resource "aws_iam_role_policy_attachment" "this" {
   policy_arn = aws_iam_policy.this.arn
   role       = aws_iam_role.this.name
 }
+
+resource "aws_iam_role_policy_attachment" "external" {
+  count      = var.enable_custom_iam_policy ? 1 : 0
+  policy_arn = var.custom_iam_policy_arn
+  role       = aws_iam_role.this.name
+}

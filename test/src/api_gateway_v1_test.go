@@ -28,4 +28,7 @@ func TestApiGatewayV1(t *testing.T) {
 
 	// Test API Gateway with Lambda at /test
 	assert.NoError(t, checkHttpStatusAndBody(t, "https://"+domainName+"/test", "", "successful", http.StatusOK))
+
+	// Test API Gateway with Lambda using a separate resource at /test2
+	assert.NoError(t, checkHttpStatusAndBody(t, "https://"+domainName+"/test2", "", "successful", http.StatusOK))
 }
