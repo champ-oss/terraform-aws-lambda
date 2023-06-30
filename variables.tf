@@ -277,3 +277,27 @@ variable "custom_iam_policy_arn" {
   type        = string
   default     = null
 }
+
+variable "alert_slack_url" {
+  description = "Slack URL to use for alerts"
+  type        = string
+  default     = "https://hooks.slack.com/services/abc123"
+}
+
+variable "alert_region" {
+  description = "AWS region for alerting"
+  type        = string
+  default     = "us-east-2"
+}
+
+variable "alert_filter_pattern" {
+  description = "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html#extract-log-event-values"
+  type        = string
+  default     = "ERROR"
+}
+
+variable "enable_logging_alerts" {
+  description = "Enable alerts for log messages"
+  type        = bool
+  default     = false
+}
