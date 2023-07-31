@@ -29,13 +29,17 @@ resource "aws_api_gateway_integration" "this" {
 }
 
 resource "aws_api_gateway_deployment" "this" {
+  depends_on  = [aws_api_gateway_resource.this, aws_api_gateway_method.this, aws_api_gateway_integration.this]
   count       = var.enable_api_gateway_v1 ? 1 : 0
   rest_api_id = var.api_gateway_v1_rest_api_id
   triggers = {
     redeployment = sha1(jsonencode([
       local.api_gateway_v1_resource_id,
+      local.api_gateway_v1_resource_path,
       aws_api_gateway_method.this[0].id,
-      aws_api_gateway_integration.this[0].id
+      aws_api_gateway_integration.this[0].id,
+      var.api_gateway_v1_http_method,
+      var.api_gateway_v1_path_part
     ]))
   }
 
