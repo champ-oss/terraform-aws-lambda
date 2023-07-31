@@ -38,9 +38,7 @@ resource "aws_api_gateway_deployment" "this" {
       local.api_gateway_v1_resource_path,
       jsonencode(aws_api_gateway_method.this[0]),
       jsonencode(aws_api_gateway_integration.this[0]),
-      var.create_api_gateway_v1_resource ? jsonencode(aws_api_gateway_resource.this[0]) : "",
-      var.api_gateway_v1_http_method,
-      var.api_gateway_v1_path_part
+      var.create_api_gateway_v1_resource ? jsonencode(aws_api_gateway_resource.this[0]) : ""
     ]))
   }
 
