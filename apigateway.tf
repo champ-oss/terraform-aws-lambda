@@ -11,11 +11,12 @@ resource "aws_api_gateway_resource" "this" {
 }
 
 resource "aws_api_gateway_method" "this" {
-  count         = var.enable_api_gateway_v1 ? 1 : 0
-  rest_api_id   = var.api_gateway_v1_rest_api_id
-  resource_id   = local.api_gateway_v1_resource_id
-  http_method   = var.api_gateway_v1_http_method
-  authorization = "NONE" # NOSONAR uses authentication from API Gateway root
+  count            = var.enable_api_gateway_v1 ? 1 : 0
+  rest_api_id      = var.api_gateway_v1_rest_api_id
+  resource_id      = local.api_gateway_v1_resource_id
+  http_method      = var.api_gateway_v1_http_method
+  authorization    = "NONE" # NOSONAR uses authentication from API Gateway root
+  api_key_required = var.api_gateway_v1_api_key_required
 }
 
 resource "aws_api_gateway_integration" "this" {
