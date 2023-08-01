@@ -37,3 +37,13 @@ output "api_gateway_v1_resource_id" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_resource#id"
   value       = var.enable_api_gateway_v1 && var.create_api_gateway_v1_resource ? aws_api_gateway_resource.this[0].id : null
 }
+
+output "api_gateway_v1_method_id" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method"
+  value       = var.enable_api_gateway_v1 ? aws_api_gateway_method.this[0].id : null
+}
+
+output "api_gateway_v1_integration_id" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_integration"
+  value       = var.enable_api_gateway_v1 ? aws_api_gateway_integration.this[0].id : null
+}
