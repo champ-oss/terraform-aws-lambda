@@ -61,6 +61,7 @@ func checkHttpStatusAndBody(t *testing.T, url, authToken, expectedBody string, e
 	client := &http.Client{}
 	request, _ := http.NewRequest("GET", url, nil)
 	request.Header.Set("Authorization", authToken)
+	request.Header.Set("X-API-KEY", authToken)
 
 	for i := 0; ; i++ {
 		resp, err := client.Do(request)
