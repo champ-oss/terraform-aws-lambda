@@ -16,7 +16,7 @@ data "aws_route53_zone" "this" {
 }
 
 module "api_gateway" {
-  source                    = "github.com/champ-oss/terraform-aws-api-gateway.git?ref=v1.0.7-f2b1c79"
+  source                    = "github.com/champ-oss/terraform-aws-api-gateway.git?ref=v1.0.8-9276037"
   git                       = "terraform-aws-lambda"
   domain_name               = local.domain_name
   zone_id                   = data.aws_route53_zone.this.zone_id
