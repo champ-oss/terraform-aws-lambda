@@ -16,14 +16,14 @@ data "aws_route53_zone" "this" {
 }
 
 module "api_gateway" {
-  source                     = "github.com/champ-oss/terraform-aws-api-gateway.git?ref=42-separate-v2-resources"
-  git                        = "terraform-aws-lambda"
-  api_gateway_v1_domain_name = local.domain_name
-  zone_id                    = data.aws_route53_zone.this.zone_id
-  enable_create_certificate  = true
-  cidr_blocks                = ["0.0.0.0/0"]
-  enable_api_key             = true
-  api_gateway_deployment_id  = aws_api_gateway_deployment.this.id
+  source                    = "github.com/champ-oss/terraform-aws-api-gateway.git?ref=42-separate-v2-resources"
+  git                       = "terraform-aws-lambda"
+  domain_name               = local.domain_name
+  zone_id                   = data.aws_route53_zone.this.zone_id
+  enable_create_certificate = true
+  cidr_blocks               = ["0.0.0.0/0"]
+  enable_api_key            = true
+  api_gateway_deployment_id = aws_api_gateway_deployment.this.id
 }
 
 data "archive_file" "this" {
