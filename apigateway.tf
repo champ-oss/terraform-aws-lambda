@@ -11,11 +11,12 @@ resource "aws_api_gateway_resource" "this" {
 }
 
 resource "aws_api_gateway_method" "this" {
-  count         = var.enable_api_gateway_v1 ? 1 : 0
-  rest_api_id   = var.api_gateway_v1_rest_api_id
-  resource_id   = local.api_gateway_v1_resource_id
-  http_method   = var.api_gateway_v1_http_method
-  authorization = "NONE" # NOSONAR uses authentication from API Gateway root
+  count            = var.enable_api_gateway_v1 ? 1 : 0
+  rest_api_id      = var.api_gateway_v1_rest_api_id
+  resource_id      = local.api_gateway_v1_resource_id
+  http_method      = var.api_gateway_v1_http_method
+  authorization    = "NONE" # NOSONAR uses authentication from API Gateway root
+  api_key_required = var.api_gateway_v1_api_key_required
 }
 
 resource "aws_api_gateway_integration" "this" {
@@ -26,23 +27,4 @@ resource "aws_api_gateway_integration" "this" {
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = "arn:aws:apigateway:${data.aws_region.this.name}:lambda:path/2015-03-31/functions/${aws_lambda_function.this.arn}/invocations"
-}
-
-resource "aws_api_gateway_deployment" "this" {
-  depends_on  = [aws_api_gateway_resource.this, aws_api_gateway_method.this, aws_api_gateway_integration.this]
-  count       = var.enable_api_gateway_v1 ? 1 : 0
-  rest_api_id = var.api_gateway_v1_rest_api_id
-  triggers = {
-    redeployment = sha1(join(",", [
-      local.api_gateway_v1_resource_id,
-      local.api_gateway_v1_resource_path,
-      jsonencode(aws_api_gateway_method.this[0]),
-      jsonencode(aws_api_gateway_integration.this[0]),
-      var.create_api_gateway_v1_resource ? jsonencode(aws_api_gateway_resource.this[0]) : ""
-    ]))
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }

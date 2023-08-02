@@ -266,6 +266,12 @@ variable "api_gateway_v1_resource_path" {
   default     = null
 }
 
+variable "api_gateway_v1_api_key_required" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_api_key"
+  type        = bool
+  default     = false
+}
+
 variable "enable_custom_iam_policy" {
   description = "Attach a custom IAM policy to the Lambda IAM role"
   type        = bool

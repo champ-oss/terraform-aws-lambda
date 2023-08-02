@@ -45,7 +45,7 @@ data "aws_subnets" "private" {
 }
 
 module "acm" {
-  source            = "github.com/champ-oss/terraform-aws-acm.git?ref=v1.0.111-28fcc7c"
+  source            = "github.com/champ-oss/terraform-aws-acm.git?ref=use-validation-arn"
   git               = local.git
   domain_name       = "terraform-aws-lambda.oss.champtest.net"
   create_wildcard   = false
