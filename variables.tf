@@ -200,44 +200,110 @@ variable "function_url_authorization_type" {
   default     = "AWS_IAM"
 }
 
-variable "enable_api_gateway" {
-  description = "Create API Gateway to expose the Lambda to the Internet using JWT authentication"
+variable "image_config_command" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#command"
+  type        = list(string)
+  default     = null
+}
+
+variable "image_config_entry_point" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#entry_point"
+  type        = list(string)
+  default     = null
+}
+
+variable "image_config_working_directory" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#working_directory"
+  type        = string
+  default     = null
+}
+
+variable "enable_api_gateway_v1" {
+  description = "Create resource, method, and integration with API Gateway v1"
   type        = bool
   default     = false
 }
 
-variable "api_gateway_identity_sources" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_authorizer#identity_sources"
-  type        = list(string)
-  default     = ["$request.header.Authorization"]
-}
-
-variable "api_gateway_jwt_issuer" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_authorizer#issuer"
-  type        = string
-  default     = ""
-}
-
-variable "api_gateway_jwt_audience" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_authorizer#audience"
-  type        = list(string)
-  default     = ["account"]
-}
-
-variable "api_gateway_integration_method" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_integration#integration_method"
-  type        = string
-  default     = "POST"
-}
-
-variable "api_gateway_dns_name" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record#name"
-  type        = string
-  default     = ""
-}
-
-variable "api_gateway_certificate_arn" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_domain_name#certificate_arn"
+variable "api_gateway_v1_rest_api_id" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_resource#rest_api_id"
   type        = string
   default     = null
+}
+
+variable "api_gateway_v1_parent_resource_id" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_resource#parent_id"
+  type        = string
+  default     = null
+}
+
+variable "api_gateway_v1_path_part" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_resource#path_part"
+  type        = string
+  default     = null
+}
+
+variable "api_gateway_v1_http_method" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method#http_method"
+  type        = string
+  default     = "ANY"
+}
+
+variable "create_api_gateway_v1_resource" {
+  description = "Create a API Gateway base resource. If disabled, an existing resource ID must be provided."
+  type        = bool
+  default     = true
+}
+
+variable "api_gateway_v1_resource_id" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method#resource_id"
+  type        = string
+  default     = null
+}
+
+variable "api_gateway_v1_resource_path" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_resource#path"
+  type        = string
+  default     = null
+}
+
+variable "api_gateway_v1_api_key_required" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_api_key"
+  type        = bool
+  default     = false
+}
+
+variable "enable_custom_iam_policy" {
+  description = "Attach a custom IAM policy to the Lambda IAM role"
+  type        = bool
+  default     = false
+}
+
+variable "custom_iam_policy_arn" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment#policy_arn"
+  type        = string
+  default     = null
+}
+
+variable "alert_slack_url" {
+  description = "Slack URL to use for alerts"
+  type        = string
+  default     = "https://hooks.slack.com/services/abc123"
+}
+
+variable "alert_region" {
+  description = "AWS region for alerting"
+  type        = string
+  default     = "us-east-2"
+}
+
+variable "alert_filter_pattern" {
+  description = "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html#extract-log-event-values"
+  type        = string
+  default     = "ERROR"
+}
+
+variable "enable_logging_alerts" {
+  description = "Enable alerts for log messages"
+  type        = bool
+  default     = false
 }

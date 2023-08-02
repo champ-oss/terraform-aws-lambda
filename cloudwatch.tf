@@ -4,13 +4,6 @@ resource "aws_cloudwatch_log_group" "this" {
   tags              = merge(local.tags, var.tags)
 }
 
-resource "aws_cloudwatch_log_group" "apigw" {
-  count             = var.enable_api_gateway ? 1 : 0
-  name              = "/aws/apigateway/${var.git}-${var.name}"
-  retention_in_days = var.retention_in_days
-  tags              = merge(local.tags, var.tags)
-}
-
 resource "aws_cloudwatch_event_rule" "this" {
   count               = var.enable_cw_event ? 1 : 0
   name                = substr("${var.git}-${var.name}", 0, 64) # 64 max length
