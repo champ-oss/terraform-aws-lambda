@@ -20,6 +20,7 @@ func TestApiGatewayV1(t *testing.T) {
 		EnvVars: map[string]string{},
 		Vars:    map[string]interface{}{},
 	}
+	defer terraform.Destroy(t, terraformOptions)
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 	domainName := terraform.Output(t, terraformOptions, "domain_name")
 	apiKey := terraform.Output(t, terraformOptions, "api_key_value")
