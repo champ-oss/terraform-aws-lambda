@@ -1,6 +1,6 @@
 data "archive_file" "this" {
   type        = "zip"
-  source_dir  = "${path.module}/../python"
+  source_dir  = "${path.module}/../helper_files"
   output_path = "package.zip"
 }
 
