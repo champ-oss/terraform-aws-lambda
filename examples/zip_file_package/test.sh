@@ -1,2 +1,2 @@
-aws lambda invoke --log-type tail --function-name $FUNCTION_NAME output.txt
+aws lambda invoke --log-type Tail --function-name $FUNCTION_NAME output.txt
 cat output.txt
