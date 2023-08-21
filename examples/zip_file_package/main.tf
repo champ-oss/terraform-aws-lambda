@@ -18,7 +18,7 @@ module "this" {
   }
 }
 
-output "function_name" {
-  description = "Lambda function name"
-  value       = module.this.function_name
+output "arn" {
+  description = "Lambda ARN"
+  value       = module.this.arn
 }
