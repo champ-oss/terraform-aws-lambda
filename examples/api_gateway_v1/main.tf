@@ -1,11 +1,3 @@
-terraform {
-  backend "s3" {}
-}
-
-provider "aws" {
-  region = "us-east-2"
-}
-
 locals {
   git         = "terraform-aws-lambda"
   domain_name = "${local.git}-apigw.${data.aws_route53_zone.this.name}"

@@ -1,11 +1,3 @@
-terraform {
-  backend "s3" {}
-}
-
-provider "aws" {
-  region = "us-east-2"
-}
-
 data "archive_file" "this" {
   type        = "zip"
   source_dir  = "${path.module}/../python"
@@ -24,4 +16,9 @@ module "this" {
   environment = {
     "FOO" = "BAR"
   }
+}
+
+output "function_name" {
+  description = "Lambda function name"
+  value       = module.this.function_name
 }

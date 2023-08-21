@@ -1,0 +1,1 @@
+aws lambda invoke --log-type tail --function-name $FUNCTION_NAME

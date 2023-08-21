@@ -25,13 +25,8 @@ env:
   NEW_RELIC_REGION: ${{ secrets.NEW_RELIC_REGION }}
   NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
 
-defaults:
-  run:
-    shell: bash
-    working-directory: test/src
-
 jobs:
-  list-tests:
+  list-examples:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -39,14 +34,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: set-matrix
+        working-directory: examples
         run: |
-          TESTS=$(grep -ir 'func Test' . | cut -d ' ' -f 2 | cut -d '(' -f 1 | jq -Rsc '. / "\n" - [""]')
-          echo $TESTS
-          echo "TESTS=$TESTS" >> $GITHUB_OUTPUT
+          EXAMPLES=$(ls -1 | jq -Rsc '. / "\n" - [""]')
+          echo $EXAMPLES
+          echo "EXAMPLES=$EXAMPLES" >> $GITHUB_OUTPUT
     outputs:
-      TESTS: ${{ steps.set-matrix.outputs.TESTS }}
-  run-test:
-    needs: list-tests
+      EXAMPLES: ${{ steps.set-matrix.outputs.EXAMPLES }}
+  run-example:
+    needs: list-examples
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -54,7 +50,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        TESTS: ${{ fromJson(needs.list-tests.outputs.TESTS) }}
+        EXAMPLES: ${{ fromJson(needs.list-examples.outputs.EXAMPLES) }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: examples/${{ matrix.EXAMPLES }}
     steps:
       - uses: actions/checkout@v3
       - uses: aws-actions/configure-aws-credentials@v2
@@ -63,21 +63,32 @@ jobs:
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
       - uses: hashicorp/setup-terraform@v2.0.3 # https://github.com/hashicorp/setup-terraform/releases
         with:
-          terraform_version: 1.3.5 # https://github.com/hashicorp/terraform/releases
+          terraform_version: 1.5.5 # https://github.com/hashicorp/terraform/releases
           terraform_wrapper: false
-      - uses: actions/setup-go@v4
-        with:
-          go-version: 1.17
-      - name: Terratest
+      - name: init
+        run: terraform init
+      - name: validate
+        run: terraform validate
+      - name: plan
+        run: terraform plan -out=tfplan
+      - name: apply
+        run: terraform apply -auto-approve tfplan
+      - name: check
+        run: terraform plan -detailed-exitcode
+      - name: integration test
         run: |
-          export TF_INPUT=${TF_INPUT:-false}
-          export TF_IN_AUTOMATION=${TF_IN_AUTOMATION:-true}
-          export TF_VAR_git=`echo ${GITHUB_REPOSITORY} | sed -e 's|.*/||'`
-          export TF_VAR_branch=$(git branch --show-current)
-          go mod download
-          go test -v -timeout 90m -run ${{ matrix.TESTS }}
-  check-tests:
-    needs: run-test
+          for row in $(echo $(terraform output -json) | jq -c '. | to_entries[]'); do
+            key=$(echo $row | jq -r '.key' | tr '[:lower:]' '[:upper:]')
+            value=$(echo $row | jq -r '.value.value' | tr -d '\n[]" ')
+            echo $key=$value
+            export $key=$value
+          done
+          if [ -f test.sh ]; then bash test.sh; fi
+      - name: destroy
+        if: always()
+        run: terraform destroy -auto-approve
+  check-examples:
+    needs: run-example
     runs-on: ubuntu-latest
     if: success()
     steps:
@@ -89,12 +100,12 @@ jobs:
   module:
     runs-on: ubuntu-latest
     if: always()
-    needs: [run-test, check-tests]
+    needs: [ run-example, check-examples ]
     steps:
       - name: module
         working-directory: .
         run: |
-          passed="${{ needs.check-tests.outputs.SUCCESS }}"
+          passed="${{ needs.check-examples.outputs.SUCCESS }}"
           if [[ $passed == "true" ]]; then
             echo "tests passed"
             exit 0

@@ -1,11 +1,3 @@
-terraform {
-  backend "s3" {}
-}
-
-provider "aws" {
-  region = "us-east-2"
-}
-
 data "archive_file" "this" {
   type        = "zip"
   source_dir  = "${path.module}/../python"
