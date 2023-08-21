@@ -1,10 +1,14 @@
 locals {
   git         = "terraform-aws-lambda"
-  domain_name = "${local.git}-apigw.${data.aws_route53_zone.this.name}"
+  domain_name = "${local.git}-apigw-${random_id.this.hex}.${data.aws_route53_zone.this.name}"
 }
 
 data "aws_route53_zone" "this" {
   name = "oss.champtest.net."
+}
+
+resource "random_id" "this" {
+  byte_length = 2
 }
 
 module "api_gateway" {
