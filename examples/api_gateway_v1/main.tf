@@ -93,12 +93,12 @@ output "arn" {
   value       = module.this.arn
 }
 
-output "domain_name" {
-  description = "domain name"
-  value       = local.domain_name
+output "url" {
+  description = "url of API Gateway endpoint"
+  value       = "https://${local.domain_name}"
 }
 
-output "api_key_value" {
+output "auth_token" {
   description = "Generated API Key to use for requests"
   sensitive   = true
   value       = module.api_gateway.api_key_value
