@@ -1,6 +1,6 @@
 locals {
   git         = "terraform-aws-lambda-${random_id.this.hex}"
-  domain_name = "${local.git}-${random_id.this.hex}.${data.aws_route53_zone.this.name}"
+  domain_name = "${local.git}.${data.aws_route53_zone.this.name}"
 }
 
 data "aws_route53_zone" "this" {
@@ -44,7 +44,7 @@ resource "random_id" "this" {
 module "acm" {
   source            = "github.com/champ-oss/terraform-aws-acm.git?ref=v1.0.114-1c756c3"
   git               = local.git
-  domain_name       = "terraform-aws-lambda.oss.champtest.net"
+  domain_name       = local.domain_name
   create_wildcard   = false
   zone_id           = data.aws_route53_zone.this.zone_id
   enable_validation = true
@@ -68,8 +68,8 @@ module "hash" {
 
 module "this" {
   source                         = "../../"
-  git                            = "terraform-aws-lambda"
-  name                           = "load-balancer"
+  git                            = local.git
+  name                           = "alb-test"
   vpc_id                         = data.aws_vpcs.this.ids[0]
   private_subnet_ids             = data.aws_subnets.private.ids
   zone_id                        = data.aws_route53_zone.this.zone_id
