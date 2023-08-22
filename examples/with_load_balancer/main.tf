@@ -1,5 +1,6 @@
 locals {
-  git = "terraform-aws-lambda"
+  git         = "terraform-aws-lambda-${random_id.this.hex}"
+  domain_name = "${local.git}-${random_id.this.hex}.${data.aws_route53_zone.this.name}"
 }
 
 data "aws_route53_zone" "this" {
@@ -36,6 +37,10 @@ data "aws_subnets" "private" {
   }
 }
 
+resource "random_id" "this" {
+  byte_length = 2
+}
+
 module "acm" {
   source            = "github.com/champ-oss/terraform-aws-acm.git?ref=v1.0.114-1c756c3"
   git               = local.git
@@ -62,15 +67,13 @@ module "hash" {
 }
 
 module "this" {
-  source                          = "../../"
-  git                             = "terraform-aws-lambda"
-  name                            = "load-balancer"
-  vpc_id                          = data.aws_vpcs.this.ids[0]
-  private_subnet_ids              = data.aws_subnets.private.ids
-  zone_id                         = data.aws_route53_zone.this.zone_id
-  reserved_concurrent_executions  = 1
-  enable_function_url             = true
-  function_url_authorization_type = "NONE"
+  source                         = "../../"
+  git                            = "terraform-aws-lambda"
+  name                           = "load-balancer"
+  vpc_id                         = data.aws_vpcs.this.ids[0]
+  private_subnet_ids             = data.aws_subnets.private.ids
+  zone_id                        = data.aws_route53_zone.this.zone_id
+  reserved_concurrent_executions = 1
 
   # Make the lambda public by attaching to the ALB
   listener_arn         = module.alb.listener_arn
@@ -80,7 +83,7 @@ module "this" {
   enable_route53       = true
   enable_vpc           = false
 
-  dns_name    = "terraform-aws-lambda.oss.champtest.net"
+  dns_name    = local.domain_name
   ecr_account = "912455136424"
   ecr_name    = "terraform-aws-lambda"
   ecr_tag     = module.hash.hash
@@ -95,7 +98,7 @@ output "arn" {
   value       = module.this.arn
 }
 
-output "function_url" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function_url#function_url"
-  value       = module.this.function_url
+output "url" {
+  description = "url of API Gateway endpoint"
+  value       = "https://${local.domain_name}"
 }

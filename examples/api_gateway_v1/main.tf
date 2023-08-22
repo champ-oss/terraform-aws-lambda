@@ -1,5 +1,5 @@
 locals {
-  git         = "terraform-aws-lambda"
+  git         = "terraform-aws-lambda-${random_id.this.hex}"
   domain_name = "${local.git}-apigw-${random_id.this.hex}.${data.aws_route53_zone.this.name}"
 }
 
