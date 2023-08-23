@@ -11,7 +11,7 @@ env:
 defaults:
   run:
     shell: bash
-    working-directory: examples/helper_files
+    working-directory: test/helper_files
 
 jobs:
   example-ecr:
