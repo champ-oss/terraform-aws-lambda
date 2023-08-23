@@ -7,7 +7,7 @@ echo -e "\nLambda response:"
 cat response.txt
 
 echo -e "\nChecking log result:"
-cat response.txt | jq -r .LogResult | base64 -d
+cat response.txt | jq -r .LogResult | base64 -d | grep successful
 
 echo -e "\nChecking status code:"
 cat response.txt | jq -r .StatusCode | grep 200

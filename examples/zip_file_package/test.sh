@@ -1,3 +1,3 @@
 set -e
 
-bash ../helper_files/invoke_test.sh
+bash ../../test/helper_files/invoke_test.sh
