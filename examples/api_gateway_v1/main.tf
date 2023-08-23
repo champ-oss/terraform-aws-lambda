@@ -1,18 +1,14 @@
-terraform {
-  backend "s3" {}
-}
-
-provider "aws" {
-  region = "us-east-2"
-}
-
 locals {
-  git         = "terraform-aws-lambda"
-  domain_name = "${local.git}-apigw.${data.aws_route53_zone.this.name}"
+  git         = "terraform-aws-lambda-${random_id.this.hex}"
+  domain_name = "${local.git}.${data.aws_route53_zone.this.name}"
 }
 
 data "aws_route53_zone" "this" {
   name = "oss.champtest.net."
+}
+
+resource "random_id" "this" {
+  byte_length = 2
 }
 
 module "api_gateway" {
@@ -28,7 +24,7 @@ module "api_gateway" {
 
 data "archive_file" "this" {
   type        = "zip"
-  source_dir  = "${path.module}/../python"
+  source_dir  = "${path.module}/../../test/helper_files"
   output_path = "package.zip"
 }
 
@@ -90,4 +86,20 @@ resource "aws_api_gateway_deployment" "this" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+output "arn" {
+  description = "Lambda ARN"
+  value       = module.this.arn
+}
+
+output "url" {
+  description = "url of API Gateway endpoint"
+  value       = "https://${local.domain_name}"
+}
+
+output "auth_token" {
+  description = "Generated API Key to use for requests"
+  sensitive   = true
+  value       = module.api_gateway.api_key_value
 }

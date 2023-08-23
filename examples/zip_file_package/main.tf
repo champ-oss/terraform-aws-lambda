@@ -1,14 +1,6 @@
-terraform {
-  backend "s3" {}
-}
-
-provider "aws" {
-  region = "us-east-2"
-}
-
 data "archive_file" "this" {
   type        = "zip"
-  source_dir  = "${path.module}/../python"
+  source_dir  = "${path.module}/../../test/helper_files"
   output_path = "package.zip"
 }
 
@@ -24,4 +16,9 @@ module "this" {
   environment = {
     "FOO" = "BAR"
   }
+}
+
+output "arn" {
+  description = "Lambda ARN"
+  value       = module.this.arn
 }

@@ -10,6 +10,10 @@ locals {
   }
 }
 
+resource "random_id" "this" {
+  byte_length = 3
+}
+
 resource "null_resource" "wait_for_ecr" {
   triggers = {
     ecr_account = local.ecr_account

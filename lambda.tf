@@ -8,7 +8,7 @@ locals {
 //noinspection ConflictingProperties
 resource "aws_lambda_function" "this" {
   depends_on                     = [null_resource.wait_for_ecr]
-  function_name                  = substr("${var.git}-${var.name}", 0, 64) # 64 max length
+  function_name                  = substr("${var.git}-${var.name}-${random_id.this.hex}", 0, 64) # 64 max length
   role                           = aws_iam_role.this.arn
   package_type                   = local.ecr_name != "" ? "Image" : "Zip"
   image_uri                      = local.ecr_name != "" ? local.image_uri : null
@@ -38,12 +38,20 @@ resource "aws_lambda_function" "this" {
   }
 
   dynamic "image_config" {
-    for_each = var.image_config_command != null || var.image_config_entry_point != null || var.image_config_working_directory != null ? [1] : []
+    for_each = var.image_config_command != null || var.image_config_entry_point != null || var.image_config_working_directory != null ? [
+      1
+    ] : []
     content {
       command           = var.image_config_command
       entry_point       = var.image_config_entry_point
       working_directory = var.image_config_working_directory
     }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      function_name
+    ]
   }
 }
 

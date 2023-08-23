@@ -1,13 +1,6 @@
-terraform {
-  backend "s3" {}
-}
-
-provider "aws" {
-  region = "us-east-2"
-}
-
 locals {
-  git = "terraform-aws-lambda"
+  git         = "terraform-aws-lambda-${random_id.this.hex}"
+  domain_name = "${local.git}.${data.aws_route53_zone.this.name}"
 }
 
 data "aws_route53_zone" "this" {
@@ -44,10 +37,14 @@ data "aws_subnets" "private" {
   }
 }
 
+resource "random_id" "this" {
+  byte_length = 2
+}
+
 module "acm" {
   source            = "github.com/champ-oss/terraform-aws-acm.git?ref=v1.0.114-1c756c3"
   git               = local.git
-  domain_name       = "terraform-aws-lambda.oss.champtest.net"
+  domain_name       = local.domain_name
   create_wildcard   = false
   zone_id           = data.aws_route53_zone.this.zone_id
   enable_validation = true
@@ -70,15 +67,13 @@ module "hash" {
 }
 
 module "this" {
-  source                          = "../../"
-  git                             = "terraform-aws-lambda"
-  name                            = "load-balancer"
-  vpc_id                          = data.aws_vpcs.this.ids[0]
-  private_subnet_ids              = data.aws_subnets.private.ids
-  zone_id                         = data.aws_route53_zone.this.zone_id
-  reserved_concurrent_executions  = 1
-  enable_function_url             = true
-  function_url_authorization_type = "NONE"
+  source                         = "../../"
+  git                            = local.git
+  name                           = "alb-test"
+  vpc_id                         = data.aws_vpcs.this.ids[0]
+  private_subnet_ids             = data.aws_subnets.private.ids
+  zone_id                        = data.aws_route53_zone.this.zone_id
+  reserved_concurrent_executions = 1
 
   # Make the lambda public by attaching to the ALB
   listener_arn         = module.alb.listener_arn
@@ -88,7 +83,7 @@ module "this" {
   enable_route53       = true
   enable_vpc           = false
 
-  dns_name    = "terraform-aws-lambda.oss.champtest.net"
+  dns_name    = local.domain_name
   ecr_account = "912455136424"
   ecr_name    = "terraform-aws-lambda"
   ecr_tag     = module.hash.hash
@@ -96,4 +91,14 @@ module "this" {
   environment = {
     "FOO" = "BAR"
   }
+}
+
+output "arn" {
+  description = "Lambda ARN"
+  value       = module.this.arn
+}
+
+output "url" {
+  description = "url of API Gateway endpoint"
+  value       = "https://${local.domain_name}"
 }

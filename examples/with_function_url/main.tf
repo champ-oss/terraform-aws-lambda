@@ -1,18 +1,10 @@
-terraform {
-  backend "s3" {}
-}
-
-provider "aws" {
-  region = "us-east-2"
-}
-
 data "aws_route53_zone" "this" {
   name = "oss.champtest.net."
 }
 
 data "archive_file" "this" {
   type        = "zip"
-  source_dir  = "${path.module}/../python"
+  source_dir  = "${path.module}/../../test/helper_files"
   output_path = "package.zip"
 }
 
@@ -29,4 +21,14 @@ module "this" {
   dns_name                        = "terraform-aws-lambda-function-url.oss.champtest.net"
   zone_id                         = data.aws_route53_zone.this.zone_id
   reserved_concurrent_executions  = 1
+}
+
+output "arn" {
+  description = "Lambda ARN"
+  value       = module.this.arn
+}
+
+output "url" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function_url#function_url"
+  value       = module.this.function_url
 }
