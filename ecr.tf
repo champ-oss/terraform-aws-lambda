@@ -4,10 +4,4 @@ module "ecr_cache" {
   name             = local.ecr_name
   sync_source_repo = var.sync_source_repo
   sync_source_tag  = var.ecr_tag
-
-  lifecycle {
-    ignore_changes = [
-      name
-    ]
-  }
 }
