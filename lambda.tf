@@ -1,6 +1,6 @@
 locals {
   ecr_account = var.ecr_account != "" ? var.ecr_account : data.aws_caller_identity.this.account_id
-  ecr_name    = var.sync_image ? "${var.ecr_name}-cache" : var.ecr_name
+  ecr_name    = var.sync_image ? "${var.ecr_name}-${random_id.this.hex}-cache" : var.ecr_name
   image_uri   = "${local.ecr_account}.dkr.ecr.${data.aws_region.this.name}.amazonaws.com/${local.ecr_name}:${var.ecr_tag}"
 }
 
