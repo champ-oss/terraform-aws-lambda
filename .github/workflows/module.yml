@@ -32,7 +32,7 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: set-matrix
         working-directory: examples
         run: |
@@ -56,8 +56,8 @@ jobs:
         shell: bash
         working-directory: examples/${{ matrix.EXAMPLES }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: aws-actions/configure-aws-credentials@v2
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
@@ -102,7 +102,7 @@ jobs:
   module:
     runs-on: ubuntu-latest
     if: always()
-    needs: [ run-example, check-examples ]
+    needs: [run-example, check-examples]
     steps:
       - name: module
         working-directory: .
@@ -121,7 +121,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: set-env-info
         run: |
           echo "GIT_REPO=$(echo ${GITHUB_REPOSITORY} | sed -e 's|.*/||')" >> $GITHUB_ENV
