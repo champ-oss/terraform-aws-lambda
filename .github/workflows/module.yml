@@ -10,6 +10,8 @@ on:
   schedule:
     - cron: "0 7 * * *"
 
+concurrency: this
+
 env:
   TF_INPUT: false
   TF_IN_AUTOMATION: true
@@ -63,6 +65,8 @@ jobs:
         with:
           terraform_version: 1.5.5 # https://github.com/hashicorp/terraform/releases
           terraform_wrapper: false
+      - name: copy lockfile
+        run: cp ../complete/.terraform.lock.hcl . || true
       - name: init
         run: terraform init
       - name: validate
