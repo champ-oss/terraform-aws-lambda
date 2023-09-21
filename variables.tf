@@ -307,3 +307,9 @@ variable "enable_logging_alerts" {
   type        = bool
   default     = false
 }
+
+variable "enable_iam_role_name_prefix" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role#name_prefix"
+  type        = bool
+  default     = true
+}
