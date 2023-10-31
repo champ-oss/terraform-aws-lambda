@@ -4,14 +4,14 @@ updates:
   - package-ecosystem: "terraform"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   - package-ecosystem: "terraform"
     directory: "/examples/complete"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"

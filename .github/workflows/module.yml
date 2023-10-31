@@ -62,9 +62,9 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
-      - uses: hashicorp/setup-terraform@v2.0.3 # https://github.com/hashicorp/setup-terraform/releases
+      - uses: hashicorp/setup-terraform@v3.0.0 # https://github.com/hashicorp/setup-terraform/releases
         with:
-          terraform_version: 1.5.5 # https://github.com/hashicorp/terraform/releases
+          terraform_version: 1.6.2 # https://github.com/hashicorp/terraform/releases
           terraform_wrapper: false
       - name: copy lockfile
         run: cp ../complete/.terraform.lock.hcl . || true
