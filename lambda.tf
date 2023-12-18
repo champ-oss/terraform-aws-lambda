@@ -50,7 +50,9 @@ resource "aws_lambda_function" "this" {
 
   lifecycle {
     ignore_changes = [
-      function_name
+      filename,
+      function_name,
+      last_modified
     ]
   }
 }
