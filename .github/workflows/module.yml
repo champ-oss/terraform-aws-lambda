@@ -99,7 +99,6 @@ jobs:
   module:
     if: ${{ always() }}
     runs-on: ubuntu-latest
-    name: Final Results
     needs: [run-example]
     steps:
       - run: exit 1
