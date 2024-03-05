@@ -13,6 +13,7 @@ module "this" {
   handler                        = "app.handler"
   runtime                        = "python3.9"
   enable_cw_event                = true
+  foo                            = "bar"
   schedule_expression            = "rate(1 minute)"
   reserved_concurrent_executions = 1
   environment = {
