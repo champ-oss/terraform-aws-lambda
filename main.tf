@@ -2,6 +2,9 @@ data "aws_region" "this" {}
 data "aws_caller_identity" "this" {}
 
 locals {
+  trimmed_name = substr("${var.git}-${var.name}", 0, 56)
+  name         = "${local.trimmed_name}-${random_id.this.hex}" # 64 characters max length
+
   tags = {
     git       = var.git
     cost      = "shared"

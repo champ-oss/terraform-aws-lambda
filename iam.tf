@@ -1,13 +1,14 @@
 # tflint-ignore: terraform_comment_syntax
 //noinspection ConflictingProperties
 resource "aws_iam_role" "this" {
-  name               = var.enable_iam_role_name_prefix ? null : substr("${var.git}-${var.name}", 0, 64)
+  name               = var.enable_iam_role_name_prefix ? null : local.name
   name_prefix        = var.enable_iam_role_name_prefix ? var.git : null
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
   tags               = merge(local.tags, var.tags)
 
   lifecycle {
     create_before_destroy = true
+    ignore_changes        = [name]
   }
 }
 

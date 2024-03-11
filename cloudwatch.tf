@@ -12,7 +12,7 @@ resource "aws_cloudwatch_log_group" "this" {
 
 resource "aws_cloudwatch_event_rule" "this" {
   count               = var.enable_cw_event ? 1 : 0
-  name                = substr("${var.git}-${var.name}", 0, 64) # 64 max length
+  name                = local.name
   description         = "executes event"
   schedule_expression = var.schedule_expression
 }
