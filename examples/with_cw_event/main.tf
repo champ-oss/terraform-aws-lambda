@@ -7,7 +7,7 @@ data "archive_file" "this" {
 module "this1" {
   source                         = "../../"
   git                            = "terraform-aws-lambda"
-  name                           = "cloudwatch"
+  name                           = "cloudwatch-event-rule-to-lambda-trigger-test" # Test for name length errors
   filename                       = data.archive_file.this.output_path
   source_code_hash               = data.archive_file.this.output_base64sha256
   handler                        = "app.handler"
@@ -24,7 +24,7 @@ module "this1" {
 module "this2" {
   source                         = "../../"
   git                            = "terraform-aws-lambda"
-  name                           = "cloudwatch"
+  name                           = "cloudwatch-event-rule-to-lambda-trigger-test"
   filename                       = data.archive_file.this.output_path
   source_code_hash               = data.archive_file.this.output_base64sha256
   handler                        = "app.handler"
