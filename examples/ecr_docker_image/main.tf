@@ -1,3 +1,21 @@
+terraform {
+  required_version = ">= 1.5.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.40.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.6.0"
+    }
+    archive = {
+      source  = "hashicorp/archive"
+      version = ">= 2.0.0"
+    }
+  }
+}
+
 module "hash" {
   source   = "github.com/champ-oss/terraform-git-hash.git?ref=v1.0.12-fc3bb87"
   path     = "${path.module}/../.."
