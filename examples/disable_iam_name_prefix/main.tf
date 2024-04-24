@@ -34,11 +34,6 @@ module "this" {
   enable_iam_role_name_prefix    = false # disable randomly generated name
 }
 
-output "function_name" {
-  description = "Lambda ARN"
-  value       = module.this.function_name
-}
-
 output "role_arn" {
   description = "Lambda ARN"
   value       = module.this.role_arn
