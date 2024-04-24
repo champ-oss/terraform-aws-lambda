@@ -31,5 +31,15 @@ module "this" {
   handler                        = "app.handler"
   runtime                        = "python3.9"
   reserved_concurrent_executions = 1
-  enable_iam_role_name_prefix    = false # disable randomly generated IAM role name
+  enable_iam_role_name_prefix    = false # disable randomly generated name
+}
+
+output "function_name" {
+  description = "Lambda ARN"
+  value       = module.this.function_name
+}
+
+output "role_arn" {
+  description = "Lambda ARN"
+  value       = module.this.role_arn
 }
