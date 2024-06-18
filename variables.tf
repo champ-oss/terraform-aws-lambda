@@ -313,3 +313,9 @@ variable "enable_iam_role_name_prefix" {
   type        = bool
   default     = true
 }
+
+variable "enable_org_access" {
+  description = "Allow all accounts in current org to invoke function"
+  type        = bool
+  default     = false
+}
