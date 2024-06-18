@@ -78,3 +78,15 @@ resource "aws_lambda_permission" "api_gateway_v1" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:${var.api_gateway_v1_rest_api_id}/*/${aws_api_gateway_method.this[0].http_method}${local.api_gateway_v1_resource_path}"
 }
+
+data "aws_organizations_organization" "this" {
+  count = var.enable_org_access ? 1 : 0
+}
+
+resource "aws_lambda_permission" "org" {
+  count            = var.enable_org_access ? 1 : 0
+  action           = "lambda:InvokeFunction"
+  function_name    = aws_lambda_function.this.arn
+  principal        = "*"
+  principal_org_id = data.aws_organizations_organization.this[0].id
+}
