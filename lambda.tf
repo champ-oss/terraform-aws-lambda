@@ -88,5 +88,5 @@ resource "aws_lambda_permission" "org" {
   action           = "lambda:InvokeFunction"
   function_name    = aws_lambda_function.this.arn
   principal        = "*"
-  principal_org_id = data.aws_organizations_organization.this.id
+  principal_org_id = data.aws_organizations_organization.this[0].id
 }
