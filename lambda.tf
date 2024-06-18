@@ -83,7 +83,7 @@ data "aws_organizations_organization" "this" {
   count = var.enable_org_access ? 1 : 0
 }
 
-resource "aws_lambda_permission" "api_gateway_v1" {
+resource "aws_lambda_permission" "org" {
   count            = var.enable_org_access ? 1 : 0
   action           = "lambda:InvokeFunction"
   function_name    = aws_lambda_function.this.arn
