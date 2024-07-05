@@ -11,6 +11,11 @@ resource "aws_cloudwatch_log_group" "this" {
   }
 }
 
+moved {
+  from = aws_cloudwatch_log_group.this
+  to   = aws_cloudwatch_log_group.this[0]
+}
+
 resource "aws_cloudwatch_event_rule" "this" {
   count               = var.enable_cw_event && var.enabled ? 1 : 0
   name                = local.name
