@@ -1,5 +1,5 @@
 resource "aws_route53_record" "this" {
-  count   = var.enable_route53 && var.enable_load_balancer ? 1 : 0
+  count   = var.enable_route53 && var.enable_load_balancer && var.enabled ? 1 : 0
   name    = var.dns_name
   type    = "A"
   zone_id = var.zone_id

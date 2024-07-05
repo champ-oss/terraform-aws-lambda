@@ -1,5 +1,5 @@
 resource "aws_security_group" "this" {
-  count       = var.enable_vpc ? 1 : 0
+  count       = var.enable_vpc && var.enabled ? 1 : 0
   name_prefix = "${var.git}-${var.name}"
   vpc_id      = var.vpc_id
   tags        = merge(local.tags, var.tags)
@@ -10,7 +10,7 @@ resource "aws_security_group" "this" {
 }
 
 resource "aws_security_group_rule" "this" {
-  count             = var.enable_vpc ? 1 : 0
+  count             = var.enable_vpc && var.enabled ? 1 : 0
   description       = "internet"
   type              = "egress"
   from_port         = 0
