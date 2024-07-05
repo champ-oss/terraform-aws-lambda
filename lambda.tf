@@ -1,7 +1,7 @@
 locals {
   ecr_account = var.ecr_account != "" ? var.ecr_account : try(data.aws_caller_identity.this[0].account_id, "")
   ecr_name    = var.sync_image ? "${var.ecr_name}-cache" : var.ecr_name
-  image_uri   = "${local.ecr_account}.dkr.ecr.${data.aws_region.this[0].name}.amazonaws.com/${local.ecr_name}:${var.ecr_tag}"
+  image_uri   = try("${local.ecr_account}.dkr.ecr.${data.aws_region.this[0].name}.amazonaws.com/${local.ecr_name}:${var.ecr_tag}", "")
 }
 
 # tflint-ignore: terraform_comment_syntax
