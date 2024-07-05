@@ -1,5 +1,5 @@
 module "alert" {
-  source         = "github.com/champ-oss/terraform-aws-alert.git?ref=31dd996bf5e1f435042b655a9facbae5d9d0d4d1"
+  source         = "github.com/champ-oss/terraform-aws-alert.git?ref=503e2a5f01753019f40cbe0f95dea9238a0fb65a"
   git            = var.git
   log_group_name = aws_cloudwatch_log_group.this[0].name
   name           = "${var.name}-alert"
