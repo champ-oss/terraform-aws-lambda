@@ -1,5 +1,5 @@
 module "alert" {
-  source         = "github.com/champ-oss/terraform-aws-alert.git?ref=feature/toggle-module"
+  source         = "github.com/champ-oss/terraform-aws-alert.git?ref=d345d897de350e12a7545cb4061ab1901d31fbc2"
   git            = var.git
   log_group_name = aws_cloudwatch_log_group.this.name
   name           = "${var.name}-alert"
