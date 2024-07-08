@@ -1,0 +1,15 @@
+module "alert" {
+  source         = "github.com/champ-oss/terraform-aws-alert.git?ref=feature/toggle-module"
+  git            = var.git
+  log_group_name = aws_cloudwatch_log_group.this.name
+  name           = "${var.name}-alert"
+  filter_pattern = var.alert_filter_pattern
+  slack_url      = var.alert_slack_url
+  region         = var.alert_region
+  enabled        = var.enable_logging_alerts
+}
+
+moved {
+  from = module.alert[0]
+  to   = module.alert
+}
