@@ -19,7 +19,7 @@ terraform {
 variable "enabled" {
   description = "module enabled"
   type        = bool
-  default     = false
+  default     = true
 }
 
 data "archive_file" "this" {

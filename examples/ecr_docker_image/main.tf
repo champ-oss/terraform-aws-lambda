@@ -22,9 +22,16 @@ module "hash" {
   fallback = ""
 }
 
+variable "enabled" {
+  description = "module enabled"
+  type        = bool
+  default     = true
+}
+
 module "this" {
   source                         = "../../"
   git                            = "terraform-aws-lambda"
+  enabled                        = var.enabled
   name                           = "ecr"
   ecr_name                       = "terraform-aws-lambda"
   ecr_tag                        = module.hash.hash
@@ -38,4 +45,9 @@ module "this" {
 output "arn" {
   description = "Lambda ARN"
   value       = module.this.arn
+}
+
+output "enabled" {
+  description = "module enabled"
+  value       = var.enabled
 }
