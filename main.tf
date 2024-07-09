@@ -17,7 +17,7 @@ moved {
 
 locals {
   trimmed_name = substr("${var.git}-${var.name}", 0, 56)
-  name         = try("${local.trimmed_name}-${random_id.this[0].hex}", "")  # 64 characters max length
+  name         = try("${local.trimmed_name}-${random_id.this[0].hex}", "") # 64 characters max length
 
   tags = {
     git       = var.git
