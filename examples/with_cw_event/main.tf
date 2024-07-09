@@ -49,7 +49,7 @@ module "this1" {
 module "this2" {
   source                         = "../../"
   git                            = "terraform-aws-lambda"
-  enable                         = var.enabled
+  enabled                        = var.enabled
   name                           = "cloudwatch-event-rule-to-lambda-trigger-test"
   filename                       = data.archive_file.this.output_path
   source_code_hash               = data.archive_file.this.output_base64sha256
