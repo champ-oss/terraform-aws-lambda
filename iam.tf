@@ -1,9 +1,10 @@
 # tflint-ignore: terraform_comment_syntax
 //noinspection ConflictingProperties
 resource "aws_iam_role" "this" {
+  count              = var.enabled ? 1 : 0
   name               = var.enable_iam_role_name_prefix ? null : local.trimmed_name
   name_prefix        = var.enable_iam_role_name_prefix ? var.git : null
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role[0].json
   tags               = merge(local.tags, var.tags)
 
   lifecycle {
@@ -13,6 +14,7 @@ resource "aws_iam_role" "this" {
 }
 
 data "aws_iam_policy_document" "assume_role" {
+  count = var.enabled ? 1 : 0
   statement {
     actions = ["sts:AssumeRole"]
     principals {
@@ -23,11 +25,13 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "ssm" {
-  role       = aws_iam_role.this.name
+  count      = var.enabled ? 1 : 0
+  role       = aws_iam_role.this[0].name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
 }
 
 data "aws_iam_policy_document" "this" {
+  count = var.enabled ? 1 : 0
   statement {
     actions = [
       # "logs:CreateLogGroup", # Dont allow log group creation since we manage that with Terraform
@@ -44,17 +48,19 @@ data "aws_iam_policy_document" "this" {
 }
 
 resource "aws_iam_policy" "this" {
+  count       = var.enabled ? 1 : 0
   name_prefix = var.git
-  policy      = data.aws_iam_policy_document.this.json
+  policy      = data.aws_iam_policy_document.this[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
-  policy_arn = aws_iam_policy.this.arn
-  role       = aws_iam_role.this.name
+  count      = var.enabled ? 1 : 0
+  policy_arn = aws_iam_policy.this[0].arn
+  role       = aws_iam_role.this[0].name
 }
 
 resource "aws_iam_role_policy_attachment" "external" {
-  count      = var.enable_custom_iam_policy ? 1 : 0
+  count      = var.enable_custom_iam_policy && var.enabled ? 1 : 0
   policy_arn = var.custom_iam_policy_arn
-  role       = aws_iam_role.this.name
+  role       = aws_iam_role.this[0].name
 }

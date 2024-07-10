@@ -22,8 +22,15 @@ module "hash" {
   fallback = ""
 }
 
+variable "enabled" {
+  description = "module enabled"
+  type        = bool
+  default     = true
+}
+
 module "this" {
   source                         = "../../"
+  enabled                        = var.enabled
   git                            = "terraform-aws-lambda"
   name                           = "docker-hub"
   sync_image                     = true
@@ -39,4 +46,9 @@ module "this" {
 output "arn" {
   description = "Lambda ARN"
   value       = module.this.arn
+}
+
+output "enabled" {
+  description = "module enabled"
+  value       = var.enabled
 }

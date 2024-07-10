@@ -16,6 +16,12 @@ terraform {
   }
 }
 
+variable "enabled" {
+  description = "module enabled"
+  type        = bool
+  default     = true
+}
+
 data "archive_file" "this" {
   type        = "zip"
   source_dir  = "${path.module}/../../test/helper_files"
@@ -31,6 +37,7 @@ module "this" {
   handler                        = "app.handler"
   runtime                        = "python3.9"
   reserved_concurrent_executions = 1
+  enabled                        = var.enabled
   environment = {
     "FOO" = "BAR"
   }
@@ -39,4 +46,9 @@ module "this" {
 output "arn" {
   description = "Lambda ARN"
   value       = module.this.arn
+}
+
+output "enabled" {
+  description = "module enabled"
+  value       = var.enabled
 }

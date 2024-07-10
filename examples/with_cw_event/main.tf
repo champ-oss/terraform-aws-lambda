@@ -22,9 +22,16 @@ data "archive_file" "this" {
   output_path = "package.zip"
 }
 
+variable "enabled" {
+  description = "Enable or disable the module"
+  type        = bool
+  default     = true
+}
+
 module "this1" {
   source                         = "../../"
   git                            = "terraform-aws-lambda"
+  enabled                        = var.enabled
   name                           = "cloudwatch-event-rule-to-lambda-trigger-test" # Test for name length errors
   filename                       = data.archive_file.this.output_path
   source_code_hash               = data.archive_file.this.output_base64sha256
@@ -42,6 +49,7 @@ module "this1" {
 module "this2" {
   source                         = "../../"
   git                            = "terraform-aws-lambda"
+  enabled                        = var.enabled
   name                           = "cloudwatch-event-rule-to-lambda-trigger-test"
   filename                       = data.archive_file.this.output_path
   source_code_hash               = data.archive_file.this.output_base64sha256
@@ -63,4 +71,9 @@ output "arn" {
 output "cloudwatch_log_group" {
   description = "alarm name output"
   value       = module.this1.cloudwatch_log_group
+}
+
+output "enabled" {
+  description = "module enabled"
+  value       = var.enabled
 }
