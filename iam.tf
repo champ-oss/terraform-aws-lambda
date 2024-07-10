@@ -13,11 +13,6 @@ resource "aws_iam_role" "this" {
   }
 }
 
-moved {
-  from = aws_iam_role.this
-  to   = aws_iam_role.this[0]
-}
-
 data "aws_iam_policy_document" "assume_role" {
   count = var.enabled ? 1 : 0
   statement {
@@ -29,20 +24,10 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-moved {
-  from = data.aws_iam_policy_document.assume_role
-  to   = data.aws_iam_policy_document.assume_role[0]
-}
-
 resource "aws_iam_role_policy_attachment" "ssm" {
   count      = var.enabled ? 1 : 0
   role       = aws_iam_role.this[0].name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
-}
-
-moved {
-  from = aws_iam_role_policy_attachment.ssm
-  to   = aws_iam_role_policy_attachment.ssm[0]
 }
 
 data "aws_iam_policy_document" "this" {
@@ -62,31 +47,16 @@ data "aws_iam_policy_document" "this" {
   }
 }
 
-moved {
-  from = data.aws_iam_policy_document.this
-  to   = data.aws_iam_policy_document.this[0]
-}
-
 resource "aws_iam_policy" "this" {
   count       = var.enabled ? 1 : 0
   name_prefix = var.git
   policy      = data.aws_iam_policy_document.this[0].json
 }
 
-moved {
-  from = aws_iam_policy.this
-  to   = aws_iam_policy.this[0]
-}
-
 resource "aws_iam_role_policy_attachment" "this" {
   count      = var.enabled ? 1 : 0
   policy_arn = aws_iam_policy.this[0].arn
   role       = aws_iam_role.this[0].name
-}
-
-moved {
-  from = aws_iam_role_policy_attachment.this
-  to   = aws_iam_role_policy_attachment.this[0]
 }
 
 resource "aws_iam_role_policy_attachment" "external" {

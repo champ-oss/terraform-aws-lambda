@@ -2,17 +2,8 @@ data "aws_region" "this" {
   count = var.enabled ? 1 : 0
 }
 
-moved {
-  from = data.aws_region.this
-  to   = data.aws_region.this[0]
-}
 data "aws_caller_identity" "this" {
   count = var.enabled ? 1 : 0
-}
-
-moved {
-  from = data.aws_caller_identity.this
-  to   = data.aws_caller_identity.this[0]
 }
 
 locals {
@@ -30,11 +21,6 @@ locals {
 resource "random_id" "this" {
   count       = var.enabled ? 1 : 0
   byte_length = 3
-}
-
-moved {
-  from = random_id.this
-  to   = random_id.this[0]
 }
 
 resource "null_resource" "wait_for_ecr" {
@@ -57,9 +43,4 @@ resource "null_resource" "wait_for_ecr" {
       REGISTRY_ID = local.ecr_account
     }
   }
-}
-
-moved {
-  from = null_resource.wait_for_ecr
-  to   = null_resource.wait_for_ecr[0]
 }

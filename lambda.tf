@@ -58,11 +58,6 @@ resource "aws_lambda_function" "this" {
   }
 }
 
-moved {
-  from = aws_lambda_function.this
-  to   = aws_lambda_function.this[0]
-}
-
 resource "aws_lambda_permission" "lb" {
   count         = var.enable_load_balancer && var.enabled ? 1 : 0
   action        = "lambda:InvokeFunction"
@@ -76,11 +71,6 @@ resource "aws_lambda_permission" "cloudwatch" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.this[0].arn
   principal     = "logs.${data.aws_region.this[0].name}.amazonaws.com"
-}
-
-moved {
-  from = aws_lambda_permission.cloudwatch
-  to   = aws_lambda_permission.cloudwatch[0]
 }
 
 resource "aws_lambda_permission" "api_gateway_v1" {
