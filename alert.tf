@@ -1,6 +1,6 @@
 module "alert" {
   count          = var.enable_logging_alerts ? 1 : 0
-  source         = "github.com/champ-oss/terraform-aws-alert.git?ref=v1.0.148-b6a9f55"
+  source         = "github.com/champ-oss/terraform-aws-alert.git?ref=v1.0.149-e3e9eaf"
   git            = var.git
   log_group_name = try(aws_cloudwatch_log_group.this[0].name, "")
   name           = "${var.name}-alert"
