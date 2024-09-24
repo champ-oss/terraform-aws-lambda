@@ -24,6 +24,28 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
+resource "aws_iam_role" "eventbridge" {
+  count              = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
+  name_prefix        = local.name
+  assume_role_policy = data.aws_iam_policy_document.assume_role_eventbridge[0].json
+  tags               = merge(local.tags, var.tags)
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+data "aws_iam_policy_document" "assume_role_eventbridge" {
+  count = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      identifiers = ["scheduler.amazonaws.com"]
+      type        = "Service"
+    }
+  }
+}
+
 resource "aws_iam_role_policy_attachment" "ssm" {
   count      = var.enabled ? 1 : 0
   role       = aws_iam_role.this[0].name
