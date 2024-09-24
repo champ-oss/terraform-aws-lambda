@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "assume_role" {
 
 resource "aws_iam_role" "eventbridge" {
   count              = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
-  name_prefix        = local.name
+  name_prefix        = substr(local.name, 0, 38) # Max length is 38
   assume_role_policy = data.aws_iam_policy_document.assume_role_eventbridge[0].json
   tags               = merge(local.tags, var.tags)
 
