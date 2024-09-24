@@ -325,3 +325,21 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "enable_event_bridge_schedule" {
+  description = "Enable EventBridge schedule"
+  type        = bool
+  default     = false
+}
+
+variable "event_bridge_schedule_expression" {
+  description = "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-schedule-expressions.html"
+  type        = string
+  default     = "rate(5 minutes)"
+}
+
+variable "schedule_expression_timezone" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule#schedule_expression_timezone"
+  type        = string
+  default     = "UTC"
+}
