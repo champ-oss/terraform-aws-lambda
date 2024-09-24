@@ -29,17 +29,17 @@ variable "enabled" {
 }
 
 module "this1" {
-  source                         = "../../"
-  git                            = "terraform-aws-lambda"
-  enabled                        = var.enabled
-  name                           = "cloudwatch-event-rule-to-lambda-trigger-test" # Test for name length errors
-  filename                       = data.archive_file.this.output_path
-  source_code_hash               = data.archive_file.this.output_base64sha256
-  handler                        = "app.handler"
-  runtime                        = "python3.9"
-  enable_event_bridge_schedule = true
-  schedule_expression            = "rate(1 minute)"
-  reserved_concurrent_executions = 1
+  source                           = "../../"
+  git                              = "terraform-aws-lambda"
+  enabled                          = var.enabled
+  name                             = "cloudwatch-event-bridge-to-lambda-trigger-test" # Test for name length errors
+  filename                         = data.archive_file.this.output_path
+  source_code_hash                 = data.archive_file.this.output_base64sha256
+  handler                          = "app.handler"
+  runtime                          = "python3.9"
+  enable_event_bridge_schedule     = true
+  event_bridge_schedule_expression = "rate(1 minute)"
+  reserved_concurrent_executions   = 1
   environment = {
     "FOO" = "BAR"
   }
@@ -47,17 +47,17 @@ module "this1" {
 
 # Test for possible naming collisions
 module "this2" {
-  source                         = "../../"
-  git                            = "terraform-aws-lambda"
-  enabled                        = var.enabled
-  name                           = "cloudwatch-event-rule-to-lambda-trigger-test"
-  filename                       = data.archive_file.this.output_path
-  source_code_hash               = data.archive_file.this.output_base64sha256
-  handler                        = "app.handler"
-  runtime                        = "python3.9"
-  enable_event_bridge_schedule   = true
-  schedule_expression            = "rate(1 minute)"
-  reserved_concurrent_executions = 1
+  source                           = "../../"
+  git                              = "terraform-aws-lambda"
+  enabled                          = var.enabled
+  name                             = "cloudwatch-event-bridge-to-lambda-trigger-test"
+  filename                         = data.archive_file.this.output_path
+  source_code_hash                 = data.archive_file.this.output_base64sha256
+  handler                          = "app.handler"
+  runtime                          = "python3.9"
+  enable_event_bridge_schedule     = true
+  event_bridge_schedule_expression = "rate(1 minute)"
+  reserved_concurrent_executions   = 1
   environment = {
     "FOO" = "BAR"
   }
