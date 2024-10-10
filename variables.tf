@@ -343,3 +343,9 @@ variable "schedule_expression_timezone" {
   type        = string
   default     = "UTC"
 }
+
+variable "alert_image_uri" {
+  description = "alert module image URI"
+  type        = string
+  default     = ""
+}
