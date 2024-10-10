@@ -9,5 +9,5 @@ module "alert" {
   region         = var.alert_region
   enabled        = var.enabled
   image_uri      = var.alert_image_uri
-  package_type   = var.alert_lambea_package_type
+  package_type   = var.alert_lambda_package_type
 }
