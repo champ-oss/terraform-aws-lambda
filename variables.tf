@@ -351,7 +351,7 @@ variable "alert_image_uri" {
 }
 
 variable "alert_lambda_package_type" {
-  description = "alert module package type"
+  description = "alert lambda module package type"
   type        = string
   default     = "Zip"
 }
