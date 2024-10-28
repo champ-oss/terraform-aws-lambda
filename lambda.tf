@@ -20,7 +20,7 @@ resource "aws_lambda_function" "this" {
   memory_size                    = var.memory_size
   timeout                        = var.timeout
   description                    = var.description
-  publish = var.publish
+  publish                        = var.publish
   reserved_concurrent_executions = var.reserved_concurrent_executions
   tags                           = merge(local.tags, var.tags)
 
