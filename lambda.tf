@@ -22,6 +22,9 @@ resource "aws_lambda_function" "this" {
   description                    = var.description
   publish                        = var.publish
   reserved_concurrent_executions = var.reserved_concurrent_executions
+  s3_bucket                      = var.s3_bucket
+  s3_key                         = var.s3_key
+  s3_object_version              = var.s3_object_version
   tags                           = merge(local.tags, var.tags)
 
   dynamic "environment" {
