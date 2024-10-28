@@ -72,7 +72,7 @@ resource "aws_lambda_function" "this" {
 resource "aws_lambda_permission" "lb" {
   count         = var.enable_load_balancer && var.enabled ? 1 : 0
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.this[0].arn
+  function_name = var.enable_alias ? aws_lambda_alias.this[0].arn : aws_lambda_function.this[0].arn
   principal     = "elasticloadbalancing.amazonaws.com"
   source_arn    = aws_lb_target_group.this[0].arn
 }
