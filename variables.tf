@@ -355,3 +355,15 @@ variable "alert_lambda_package_type" {
   type        = string
   default     = "Zip"
 }
+
+variable "enable_alias" {
+  description = "Create Lambda alias"
+  type        = bool
+  default     = false
+}
+
+variable "alias_name" {
+  description = "Name of the Lambda alias"
+  type        = string
+  default     = "this"
+}

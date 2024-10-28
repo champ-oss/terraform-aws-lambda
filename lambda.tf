@@ -92,3 +92,10 @@ resource "aws_lambda_permission" "org" {
   principal        = "*"
   principal_org_id = data.aws_organizations_organization.this[0].id
 }
+
+resource "aws_lambda_alias" "this" {
+  count            = var.enable_alias && var.enabled ? 1 : 0
+  name             = var.alias_name
+  function_name    = aws_lambda_function.this[0].function_name
+  function_version = aws_lambda_function.this[0].version
+}
