@@ -355,3 +355,15 @@ variable "alert_lambda_package_type" {
   type        = string
   default     = "Zip"
 }
+
+variable "publish" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#publish"
+  type        = bool
+  default     = false
+}
+
+variable "enable_snap_start" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#snap_start"
+  type        = bool
+  default     = false
+}
