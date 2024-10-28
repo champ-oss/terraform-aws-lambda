@@ -20,7 +20,11 @@ resource "aws_lambda_function" "this" {
   memory_size                    = var.memory_size
   timeout                        = var.timeout
   description                    = var.description
+  publish                        = var.publish
   reserved_concurrent_executions = var.reserved_concurrent_executions
+  s3_bucket                      = var.s3_bucket
+  s3_key                         = var.s3_key
+  s3_object_version              = var.s3_object_version
   tags                           = merge(local.tags, var.tags)
 
   dynamic "environment" {
@@ -46,6 +50,13 @@ resource "aws_lambda_function" "this" {
       command           = var.image_config_command
       entry_point       = var.image_config_entry_point
       working_directory = var.image_config_working_directory
+    }
+  }
+
+  dynamic "snap_start" {
+    for_each = var.enable_snap_start ? [1] : []
+    content {
+      apply_on = "PublishedVersions"
     }
   }
 

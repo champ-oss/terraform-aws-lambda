@@ -367,3 +367,33 @@ variable "alias_name" {
   type        = string
   default     = "this"
 }
+
+variable "s3_bucket" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#s3_bucket"
+  type        = string
+  default     = null
+}
+
+variable "s3_key" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#s3_key"
+  type        = string
+  default     = null
+}
+
+variable "s3_object_version" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#s3_object_version"
+  type        = string
+  default     = null
+}
+
+variable "publish" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#publish"
+  type        = bool
+  default     = false
+}
+
+variable "enable_snap_start" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#snap_start"
+  type        = bool
+  default     = false
+}
