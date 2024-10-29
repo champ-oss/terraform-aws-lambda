@@ -356,6 +356,18 @@ variable "alert_lambda_package_type" {
   default     = "Zip"
 }
 
+variable "enable_alias" {
+  description = "Create Lambda alias"
+  type        = bool
+  default     = false
+}
+
+variable "alias_name" {
+  description = "Name of the Lambda alias"
+  type        = string
+  default     = "this"
+}
+
 variable "s3_bucket" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function#s3_bucket"
   type        = string

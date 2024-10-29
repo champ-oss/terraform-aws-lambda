@@ -12,7 +12,7 @@ resource "aws_lb_target_group" "this" {
 resource "aws_lb_target_group_attachment" "main" {
   count            = var.enable_load_balancer && var.enabled ? 1 : 0
   target_group_arn = aws_lb_target_group.this[0].arn
-  target_id        = aws_lambda_function.this[0].arn
+  target_id        = var.enable_alias ? aws_lambda_alias.this[0].arn : aws_lambda_function.this[0].arn
   depends_on       = [aws_lambda_permission.lb]
 }
 
