@@ -75,8 +75,14 @@ data "aws_iam_policy_document" "this" {
 resource "aws_iam_policy_attachment" "eventbridge" {
   count       = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
   name_prefix = var.git
-  policy_arn  = data.aws_iam_policy_document.eventbridge[0].arn
-  roles       = [aws_iam_role.eventbridge[0].name]
+  policy_arn  = aws_iam_policy.eventbridge[0].arn
+  roles       = aws_iam_role.eventbridge[0].name
+}
+
+resource "aws_iam_policy" "eventbridge" {
+  count       = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
+  name_prefix = var.git
+  policy      = data.aws_iam_policy_document.eventbridge[0].json
 }
 
 data "aws_iam_policy_document" "eventbridge" {
