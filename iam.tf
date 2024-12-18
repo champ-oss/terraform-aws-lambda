@@ -40,7 +40,9 @@ data "aws_iam_policy_document" "assume_role_eventbridge" {
   statement {
     actions = ["sts:AssumeRole"]
     principals {
-      identifiers = ["scheduler.amazonaws.com"]
+      identifiers = [
+        "events.amazonaws.com",
+      ]
       type        = "Service"
     }
   }
