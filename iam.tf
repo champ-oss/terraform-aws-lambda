@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "assume_role_eventbridge" {
       identifiers = [
         "scheduler.amazonaws.com"
       ]
-      type        = "Service"
+      type = "Service"
     }
   }
 }
@@ -68,6 +68,24 @@ data "aws_iam_policy_document" "this" {
       "ec2:UnassignPrivateIpAddresses"
     ]
     resources = ["*"]
+  }
+}
+
+
+resource "aws_iam_policy_attachment" "eventbridge" {
+  count       = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
+  name_prefix = var.git
+  policy_arn  = data.aws_iam_policy_document.eventbridge[0].arn
+  roles       = [aws_iam_role.eventbridge[0].name]
+}
+
+data "aws_iam_policy_document" "eventbridge" {
+  count = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
+  statement {
+    actions = [
+      "lambda:InvokeFunction"
+    ]
+    resources = [aws_lambda_function.this[0].arn]
   }
 }
 
