@@ -57,7 +57,7 @@ module "this2" {
   handler                          = "app.handler"
   runtime                          = "python3.9"
   enable_event_bridge_schedule     = true
-  event_bridge_schedule_expression = "cron(38 10 * * ? *)" # 2:15pm every day
+  event_bridge_schedule_expression = "cron(* * * * ? *)" # every minute
   schedule_expression_timezone     = "America/New_York"
   reserved_concurrent_executions   = 1
   environment = {
