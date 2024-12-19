@@ -111,3 +111,11 @@ resource "aws_lambda_alias" "this" {
   function_name    = aws_lambda_function.this[0].function_name
   function_version = aws_lambda_function.this[0].version
 }
+
+resource "aws_lambda_permission" "eventbridge" {
+  count         = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
+  statement_id  = "AllowEventBridgeTrigger"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.this[0].arn
+  principal     = "logs.${data.aws_region.this[0].name}.amazonaws.com"
+}

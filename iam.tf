@@ -40,10 +40,8 @@ data "aws_iam_policy_document" "assume_role_eventbridge" {
   statement {
     actions = ["sts:AssumeRole"]
     principals {
-      identifiers = [
-        "scheduler.amazonaws.com"
-      ]
-      type = "Service"
+      identifiers = ["scheduler.amazonaws.com"]
+      type        = "Service"
     }
   }
 }
@@ -71,30 +69,6 @@ data "aws_iam_policy_document" "this" {
   }
 }
 
-
-resource "aws_iam_policy_attachment" "eventbridge" {
-  count       = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
-  name_prefix = var.git
-  policy_arn  = aws_iam_policy.eventbridge[0].arn
-  roles       = aws_iam_role.eventbridge[0].name
-}
-
-resource "aws_iam_policy" "eventbridge" {
-  count       = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
-  name_prefix = var.git
-  policy      = data.aws_iam_policy_document.eventbridge[0].json
-}
-
-data "aws_iam_policy_document" "eventbridge" {
-  count = var.enable_event_bridge_schedule && var.enabled ? 1 : 0
-  statement {
-    actions = [
-      "lambda:InvokeFunction"
-    ]
-    resources = [aws_lambda_function.this[0].arn]
-  }
-}
-
 resource "aws_iam_policy" "this" {
   count       = var.enabled ? 1 : 0
   name_prefix = var.git
@@ -112,3 +86,4 @@ resource "aws_iam_role_policy_attachment" "external" {
   policy_arn = var.custom_iam_policy_arn
   role       = aws_iam_role.this[0].name
 }
+
