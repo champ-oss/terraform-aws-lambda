@@ -117,5 +117,6 @@ resource "aws_lambda_permission" "eventbridge" {
   statement_id  = "AllowEventBridgeTrigger"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.this[0].arn
-  principal     = "logs.${data.aws_region.this[0].name}.amazonaws.com"
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_scheduler_schedule.this[0].arn
 }
