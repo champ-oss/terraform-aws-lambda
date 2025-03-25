@@ -29,18 +29,20 @@ variable "enabled" {
 }
 
 module "this1" {
-  source                           = "../../"
-  git                              = "terraform-aws-lambda"
-  enabled                          = var.enabled
-  name                             = "cloudwatch-event-bridge-to-lambda-trigger-test" # Test for name length errors
-  filename                         = data.archive_file.this.output_path
-  source_code_hash                 = data.archive_file.this.output_base64sha256
-  handler                          = "app.handler"
-  runtime                          = "python3.9"
-  enable_event_bridge_schedule     = true
-  event_bridge_schedule_expression = "cron(* * * * ? *)" # every minute
-  schedule_expression_timezone     = "America/New_York"
-  reserved_concurrent_executions   = 1
+  source                                = "../../"
+  git                                   = "terraform-aws-lambda"
+  enabled                               = var.enabled
+  name                                  = "cloudwatch-event-bridge-to-lambda-trigger-test" # Test for name length errors
+  filename                              = data.archive_file.this.output_path
+  source_code_hash                      = data.archive_file.this.output_base64sha256
+  handler                               = "app.handler"
+  runtime                               = "python3.9"
+  enable_event_bridge_schedule          = true
+  event_bridge_schedule_expression      = "cron(* * * * ? *)" # every minute
+  schedule_expression_timezone          = "America/New_York"
+  schedule_enable_flexible_time_window  = true
+  schedule_flexible_time_window_minutes = 180
+  reserved_concurrent_executions        = 1
   environment = {
     "FOO" = "BAR"
   }
