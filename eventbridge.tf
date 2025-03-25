@@ -4,8 +4,10 @@ resource "aws_scheduler_schedule" "this" {
   description = var.description
 
   flexible_time_window {
-    mode = "OFF"
+    mode                      = var.schedule_enable_flexible_time_window ? "FLEXIBLE" : "OFF"
+    maximum_window_in_minutes = var.schedule_flexible_time_window_minutes
   }
+
   state                        = "ENABLED"
   schedule_expression          = var.event_bridge_schedule_expression
   schedule_expression_timezone = var.schedule_expression_timezone
