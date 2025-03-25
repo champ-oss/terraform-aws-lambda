@@ -344,6 +344,18 @@ variable "schedule_expression_timezone" {
   default     = "UTC"
 }
 
+variable "schedule_enable_flexible_time_window" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule#flexible_time_window-1"
+  type        = bool
+  default     = false
+}
+
+variable "schedule_flexible_time_window_minutes" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule#maximum_window_in_minutes-1"
+  type        = number
+  default     = null
+}
+
 variable "alert_image_uri" {
   description = "alert module image URI"
   type        = string
