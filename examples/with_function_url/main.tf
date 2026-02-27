@@ -1,4 +1,4 @@
-/*terraform {
+terraform {
   required_version = ">= 1.5.0"
   required_providers {
     aws = {
@@ -16,7 +16,7 @@
   }
 }
 
-data "aws_route53_zone" "this" {
+/*data "aws_route53_zone" "this" {
   name = "oss.champtest.net."
 }
 
