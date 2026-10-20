@@ -409,3 +409,9 @@ variable "enable_snap_start" {
   type        = bool
   default     = false
 }
+
+variable "enable_update_function_on_ecr_push" {
+  description = "Update the Lambda function code when the ECR image tag is pushed (ECR repository must be in the same account and region)"
+  type        = bool
+  default     = false
+}
