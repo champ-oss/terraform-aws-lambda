@@ -25,5 +25,7 @@ jobs:
         with:
           context: test/helper_files
           push: true
+          provenance: false
+          sbom: false
           tags: |
             ${{ env.REPO }}:${{ env.SHA }}
