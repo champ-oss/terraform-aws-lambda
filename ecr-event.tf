@@ -2,7 +2,8 @@ locals {
   enable_update_on_ecr_push = var.enable_update_function_on_ecr_push && var.enabled && local.ecr_name != ""
 }
 
-# ECR push events are only delivered in the account that owns the repository
+# ECR push events are only delivered to the default event bus of the account that owns the repository.
+# For a cross-account repository, the events must be forwarded to this account's default event bus.
 resource "aws_cloudwatch_event_rule" "ecr_push" {
   count       = local.enable_update_on_ecr_push ? 1 : 0
   name_prefix = substr(local.name, 0, 38) # Max length is 38
