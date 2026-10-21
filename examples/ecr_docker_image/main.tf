@@ -29,14 +29,15 @@ variable "enabled" {
 }
 
 module "this" {
-  source                         = "../../"
-  git                            = "terraform-aws-lambda"
-  enabled                        = var.enabled
-  name                           = "ecr"
-  ecr_name                       = "terraform-aws-lambda"
-  ecr_tag                        = module.hash.hash
-  reserved_concurrent_executions = 1
-  image_config_command           = ["app.handler"]
+  source                             = "../../"
+  git                                = "terraform-aws-lambda"
+  enabled                            = var.enabled
+  name                               = "ecr"
+  ecr_name                           = "terraform-aws-lambda"
+  ecr_tag                            = module.hash.hash
+  reserved_concurrent_executions     = 1
+  image_config_command               = ["app.handler"]
+  enable_update_function_on_ecr_push = true
   environment = {
     "FOO" = "BAR"
   }

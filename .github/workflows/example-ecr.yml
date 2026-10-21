@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: docker build
-        run: docker build -t ${REPO}:${GITHUB_SHA} .
+        run: docker build --provenance=false --sbom=false -t ${REPO}:${GITHUB_SHA} .
 
       - name: ecr login
         run: aws ecr --region us-east-2 get-login-password | docker login --username AWS --password-stdin 912455136424.dkr.ecr.us-east-2.amazonaws.com

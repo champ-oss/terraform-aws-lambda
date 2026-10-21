@@ -22,6 +22,7 @@ See the `examples/` folder
 - Optionally run the Lambda inside a VPC
 - Deploy the Lambda from a ZIP file or from ECR
 - Optionally sync a Docker image from another repository source (ex: Docker Hub) to ECR for deployment to the Lambda
+- Optionally update the Lambda function code when its ECR image tag is pushed (ex: a static tag like `latest`)
 - Supports triggering the Lambda on a schedule (using CloudWatch event)
 - Supports enabling a Lambda function URL
 - Optionally create API Gateway to serve HTTP requests to the lambda, using JWT authentication
